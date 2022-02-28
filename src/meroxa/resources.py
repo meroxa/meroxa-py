@@ -35,7 +35,7 @@ class Resources:
     async def update(self, updateResourceParameters: UpdateResourceParams):
         async with self._session.post(
             RESOURCE_PATH + "/{}".format(updateResourceParameters.name),
-            data=json.dumps(updateResourceParameters.reprJSON(),
+            json=json.dumps(updateResourceParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
             return await resp.text()

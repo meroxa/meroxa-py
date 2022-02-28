@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ClientOptions:
     def __init__(self, auth: str, url: str, timeout=0.0):
         self.auth = auth
@@ -39,14 +40,14 @@ class EnvironmentIdentifier:
 
     def reprJSON(self):
         return dict(
-            name = self.name,
-            uuid = self.uuid
-        )
+            name=self.name) if self.name is not None else dict(
+            uuid=self.uuid)
 
 
 class ResourceMetadata:
     def __init__(self, metadata: dict):
         self.metadata = metadata
+
     def reprJSON(self):
         return self.metadata
 
@@ -65,12 +66,12 @@ class ResourceType(Enum):
 
 
 class ResourceSSHTunnel:
-    def __init__(self, address: str, publicKey: str):
+    def __init__(self, address: str, privateKey: str):
         self.address = address
-        self.publicKey = publicKey
+        self.privateKey = privateKey
 
     def reprJSON(self):
-        return dict(address=self.address, publicKey=self.publicKey)
+        return dict(address=self.address, private_key=self.privateKey)
 
 
 class CreateResourceParams:
@@ -99,7 +100,7 @@ class CreateResourceParams:
             metadata=self.metadata,
             type=self.type.value,
             ssh_tunnel=self.sshTunnel
-        ) 
+        )
 
 class UpdateResourceParams:
     def __init__(self,
@@ -127,4 +128,4 @@ class UpdateResourceParams:
             metadata=self.metadata,
             type=self.type.value,
             ssh_tunnel=self.sshTunnel
-        ) 
+        )

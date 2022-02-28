@@ -4,7 +4,6 @@ from .resources import Resources
 from .users import Users
 from .types import ClientOptions
 
-
 def createSession(options: ClientOptions):
     return aiohttp.ClientSession(
         base_url=options.url or "https://api.staging.meroxa.io",
