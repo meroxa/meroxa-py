@@ -2,6 +2,9 @@ import aiohttp
 
 from .resources import Resources
 from .users import Users
+from .pipelines import Pipelines
+from .functions import Functions
+from .connectors import Connectors
 from .types import ClientOptions
 
 
@@ -21,5 +24,8 @@ class Client:
     def __init__(self, clientSession) -> None:
         self._clientSession = clientSession
 
-        self.users = Users(self._clientSession)
+        self.connectors = Connectors(self._clientSession)
+        self.functions = Functions(self._clientSession)
+        self.pipelines = Pipelines(self._clientSession)
         self.resources = Resources(self._clientSession)
+        self.users = Users(self._clientSession)

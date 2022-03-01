@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class ClientOptions:
     def __init__(self, auth: str, url: str, timeout=0.0):
         self.auth = auth
@@ -225,3 +224,57 @@ class UpdatePipelineParams(PipelineParams):
             name: str,
             environment: EnvironmentIdentifier) -> None:
         super().__init__(metadata, name, environment)
+
+
+class PipelineIdentifiers:
+    def __init__(self, name) -> None:
+        self._name = name
+
+    def reprJSON(self):
+        return dict(name=self._name)
+
+
+class FunctionParams:
+    def __init__(
+            self,
+            image: str,
+            command: list[str],
+            args: list[str],
+            pipelineIdentifiers: PipelineIdentifiers,
+            envVars: dict[str, str]) -> None:
+        self._image = image
+        self._command = command
+        self._args = args
+        self._pipeline = pipelineIdentifiers
+        self._envVars = envVars
+
+    def reprJSON(self):
+        return dict(
+            image=self._image,
+            command=self._command,
+            args=self._args,
+            pipelineIdentifiers=self._pipelineIdentifiers,
+            envVars=self._envVars
+        )
+
+
+class CreateFunctionParams(FunctionParams):
+    def __init__(self,
+                 image: str,
+                 command: list[str],
+                 args: list[str],
+                 pipelineIdentifiers: PipelineIdentifiers,
+                 envVars: dict[str,
+                               str]) -> None:
+        super().__init__(image, command, args, pipelineIdentifiers, envVars)
+
+
+class UpdateFunctionParams(FunctionParams):
+    def __init__(self,
+                 image: str,
+                 command: list[str],
+                 args: list[str],
+                 pipelineIdentifiers: PipelineIdentifiers,
+                 envVars: dict[str,
+                               str]) -> None:
+        super().__init__(image, command, args, pipelineIdentifiers, envVars)
