@@ -12,17 +12,9 @@ class Meroxa:
     """Asynchronous Meroxa API handler
     """
 
-    # Default Meroxa API route
-    meroxa_api = MEROXA_API_ROUTE
-
-    def __init__(
-            self,
-            auth,
-            api_route=MEROXA_API_ROUTE,
-            timeout=MEROXA_TIMEOUT,
-            session=None):
-        """Create a session if one is not provided.
-        """
+class Client:
+    def __init__(self, clientSession) -> None:
+        self._clientSession = clientSession
 
         if session is None:
             session = aiohttp.ClientSession(
