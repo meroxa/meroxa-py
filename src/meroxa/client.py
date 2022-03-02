@@ -19,7 +19,6 @@ def createSession(options: ClientOptions):
         )
     )
 
-
 class Client:
     def __init__(self, clientSession) -> None:
         self._clientSession = clientSession

@@ -237,11 +237,13 @@ class PipelineIdentifiers:
 class FunctionParams:
     def __init__(
             self,
+            inputStream: str,
             image: str,
             command: list[str],
             args: list[str],
             pipelineIdentifiers: PipelineIdentifiers,
             envVars: dict[str, str]) -> None:
+        self._inputStream = inputStream
         self._image = image
         self._command = command
         self._args = args
@@ -250,31 +252,34 @@ class FunctionParams:
 
     def reprJSON(self):
         return dict(
+            input_stream = self._inputStream,
             image=self._image,
             command=self._command,
             args=self._args,
             pipelineIdentifiers=self._pipelineIdentifiers,
-            envVars=self._envVars
+            env_vars=self._envVars
         )
 
 
 class CreateFunctionParams(FunctionParams):
     def __init__(self,
+                 inputStream: str,
                  image: str,
                  command: list[str],
                  args: list[str],
                  pipelineIdentifiers: PipelineIdentifiers,
                  envVars: dict[str,
                                str]) -> None:
-        super().__init__(image, command, args, pipelineIdentifiers, envVars)
+        super().__init__(inputStream, image, command, args, pipelineIdentifiers, envVars)
 
 
 class UpdateFunctionParams(FunctionParams):
     def __init__(self,
+                 inputStream: str,
                  image: str,
                  command: list[str],
                  args: list[str],
                  pipelineIdentifiers: PipelineIdentifiers,
                  envVars: dict[str,
                                str]) -> None:
-        super().__init__(image, command, args, pipelineIdentifiers, envVars)
+        super().__init__(inputStream, image, command, args, pipelineIdentifiers, envVars)

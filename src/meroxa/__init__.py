@@ -12,5 +12,7 @@ from .types import ResourceType
 from .types import ResourceSSHTunnel
 from .types import CreateResourceParams
 from .types import UpdateResourceParams
+from .types import CreateConnectorParams
+from .types import UpdateConnectorParams
 
 from .utils import ComplexEncoder
