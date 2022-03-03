@@ -150,11 +150,13 @@ class ConnectorType(Enum):
 class ConnectorParams:
     def __init__(self,
                  metadata: dict[str: ConnectorType],
+                 config: dict[str, str],
                  name: str,
                  resourceId: int,
                  pipelineId="",
                  pipelineName="") -> None:
         self._metadata = metadata
+        self._config = config
         self._name = name
         self._resourceId = resourceId
         self._pipelineId = pipelineId
@@ -163,31 +165,34 @@ class ConnectorParams:
     def reprJSON(self):
         return dict(
             metadata=self._metadata,
+            config=self._config,
             name=self._name,
-            resorceId=self._resourceId,
-            pipelineId=self._pipelineId,
-            pipelineName=self._pipelineName
+            resource_id=self._resourceId,
+            pipeline_id=self._pipelineId,
+            pipeline_name=self._pipelineName
         )
 
 
 class CreateConnectorParams(ConnectorParams):
     def __init__(self,
                  metadata: dict[str: ConnectorType],
+                 config: dict[str: str],
                  name: str,
                  resourceId: int,
                  pipelineId="",
                  pipelineName="") -> None:
-        super().__init__(metadata, name, resourceId, pipelineId, pipelineName)
+        super().__init__(metadata, config, name, resourceId, pipelineId, pipelineName)
 
 
 class UpdateConnectorParams(ConnectorParams):
     def __init__(self,
                  metadata: dict[str: ConnectorType],
+                 config: dict[str: str],
                  name: str,
                  resourceId: int,
                  pipelineId="",
                  pipelineName="") -> None:
-        super().__init__(metadata, name, resourceId, pipelineId, pipelineName)
+        super().__init__(metadata, config, name, resourceId, pipelineId, pipelineName)
 
 
 class PipelineParams:
