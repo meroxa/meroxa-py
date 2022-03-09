@@ -13,8 +13,8 @@ class Meroxa:
     """
 
 class Client:
-    def __init__(self, clientSession) -> None:
-        self._clientSession = clientSession
+    def __init__(self, session) -> None:
+        self._session = session
 
         if session is None:
             session = aiohttp.ClientSession(
