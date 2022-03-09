@@ -261,7 +261,7 @@ class FunctionParams:
             image=self._image,
             command=self._command,
             args=self._args,
-            pipelineIdentifiers=self._pipelineIdentifiers,
+            pipeline=self._pipeline,
             env_vars=self._envVars
         )
 
