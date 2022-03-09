@@ -14,5 +14,7 @@ from .types import CreateResourceParams
 from .types import UpdateResourceParams
 from .types import CreateConnectorParams
 from .types import UpdateConnectorParams
+from .types import CreateFunctionParams
+from .types import UpdateFunctionParams
 
 from .utils import ComplexEncoder

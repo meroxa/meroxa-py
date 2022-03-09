@@ -20,11 +20,11 @@ def createSession(options: ClientOptions):
     )
 
 class Client:
-    def __init__(self, clientSession) -> None:
-        self._clientSession = clientSession
+    def __init__(self, session) -> None:
+        self._session = session
 
-        self.connectors = Connectors(self._clientSession)
-        self.functions = Functions(self._clientSession)
-        self.pipelines = Pipelines(self._clientSession)
-        self.resources = Resources(self._clientSession)
-        self.users = Users(self._clientSession)
+        self.connectors = Connectors(self._session)
+        self.functions = Functions(self._session)
+        self.pipelines = Pipelines(self._session)
+        self.resources = Resources(self._session)
+        self.users = Users(self._session)
