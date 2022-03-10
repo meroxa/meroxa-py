@@ -6,26 +6,21 @@ meroxa-py is an async-first library created to interact with the Meroxa platform
 
 `pip install /path/to/your/cloned/repo` 
 
-(note: this will change once this package gets properly published)
-
 ## Usage
 ```python
-import meroxa
 import asyncio
 
+from meroxa import Meroxa
 from pprint import pprint
 
-opts = meroxa.ClientOptions(
-    auth="auth token", 
-    url="https://api.staging.meroxa.io"
-)
+
+auth="auth.token", 
+url="https://api.staging.meroxa.io"
 
 async def main():
-    async with meroxa.createSession(opts) as session:
-        client = meroxa.Client(session)
-        resp = await client.users.me()
+    async with Meroxa(auth=auth, api_route=url) as m:
+        resp = await m.users.me()
         pprint.pprint(resp)
-
 
 asyncio.run(main())
 ```

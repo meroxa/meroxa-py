@@ -1,12 +1,5 @@
 from enum import Enum
 
-class ClientOptions:
-    def __init__(self, auth: str, url: str, timeout=0.0):
-        self.auth = auth
-        self.timeout = timeout
-        self.url = url
-
-
 class ResourceCredentials:
     def __init__(self,
                  username: str,
@@ -257,7 +250,7 @@ class FunctionParams:
 
     def reprJSON(self):
         return dict(
-            input_stream = self._inputStream,
+            input_stream=self._inputStream,
             image=self._image,
             command=self._command,
             args=self._args,

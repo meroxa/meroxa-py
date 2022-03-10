@@ -1,10 +1,8 @@
 from .resources import Resources
 from .users import Users
 
-from .client import Client
-from .client import createSession
+from .client import Meroxa
 
-from .types import ClientOptions
 from .types import ResourceCredentials
 from .types import EnvironmentIdentifier
 from .types import ResourceMetadata
