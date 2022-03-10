@@ -25,7 +25,6 @@ class Functions:
             return await resp.text()
 
     async def create(self, createFunctionParameters: CreateFunctionParams):
-        print(createFunctionParameters.reprJSON())
         async with self._session.post(
             BASE_PATH,
             data=json.dumps(createFunctionParameters.reprJSON(),
