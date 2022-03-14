@@ -8,6 +8,7 @@ from .connectors import Connectors
 
 from meroxa.constants import MEROXA_API_ROUTE, MEROXA_TIMEOUT
 
+
 class Meroxa:
     """Asynchronous Meroxa API handler
     """
