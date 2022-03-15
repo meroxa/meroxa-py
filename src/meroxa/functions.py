@@ -25,9 +25,6 @@ class FunctionResponse(object):
         self.status = status
         self.pipline = pipeline
 
-class ListFunctionResponse(object):
-    def __init__(self, functions: list[FunctionResponse]):
-        self.functions = functions
 
 class Functions:
     def __init__(self, session) -> None:

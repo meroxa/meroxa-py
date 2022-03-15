@@ -8,17 +8,33 @@ from .utils import ComplexEncoder
 BASE_PATH = "/v1/pipelines"
 
 
+class PipelineResponse(object):
+    def __init__(
+            self, created_at: str, id: int, name: str, state: str,
+            updated_at: str, uuid: str, environment=None, metadata=None) -> None:
+        self.created_at = created_at
+        self.id = id
+        self.name = name
+        self.state = state
+        self.updated_at = updated_at
+        self.uuid = uuid
+        self.environment = environment
+        self.metadata = metadata
+
+
 class Pipelines:
     def __init__(self, session) -> None:
         self._session = session
 
     async def get(self, nameOrId: str):
         async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return PipelineResponse(**json.loads(res))
 
     async def list(self):
         async with self._session.get(BASE_PATH) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return [PipelineResponse(**pr) for pr in json.loads(res)]
 
     async def delete(self, nameOrId: str):
         async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
@@ -30,7 +46,8 @@ class Pipelines:
             data=json.dumps(createPipelineParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return PipelineResponse(**json.loads(res))
 
     async def update(self, updatePipelineParameters: UpdatePipelineParams):
         async with self._session.post(
@@ -38,4 +55,5 @@ class Pipelines:
             json=json.dumps(updatePipelineParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return PipelineResponse(**json.loads(res))
