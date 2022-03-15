@@ -8,17 +8,42 @@ from .utils import ComplexEncoder
 BASE_PATH = "/v1/resources"
 
 
+class Status(object):
+    def __init__(self, state: str, last_updated_at: str) -> None:
+        self.state = state
+        self.last_updated_at = last_updated_at
+
+
+class ResorucesResponse(object):
+    def __init__(
+            self, id: int, uuid: str, name: str, type: str,
+            url: str, metadata: dict, connector_count: int,
+            status: Status, created_at: str, updated_at: str) -> None:
+        self.id = id
+        self.uuid = uuid
+        self.name = name
+        self.type = type
+        self.url = url
+        self.metadata = metadata
+        self.connector_count = connector_count
+        self.status = Status(**json.dumps(status))
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+
 class Resources:
     def __init__(self, session) -> None:
         self._session = session
 
     async def get(self, nameOrId: str):
         async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return ResorucesResponse(**json.loads(res))
 
     async def list(self):
         async with self._session.get(BASE_PATH) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return [ResorucesResponse(**rr) for rr in json.loads(res)]
 
     async def delete(self, nameOrId: str):
         async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
@@ -30,7 +55,8 @@ class Resources:
             data=json.dumps(createResourceParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return ResorucesResponse(**json.loads(res))
 
     async def update(self, updateResourceParameters: UpdateResourceParams):
         async with self._session.post(
@@ -38,4 +64,5 @@ class Resources:
             json=json.dumps(updateResourceParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return ResorucesResponse(**json.loads(res))
