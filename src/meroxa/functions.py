@@ -1,14 +1,14 @@
 import json
 
-from .types import CreateResourceParams
-from .types import UpdateResourceParams
+from .types import CreateFunctionParams
+from .types import UpdateFunctionParams
 
 from .utils import ComplexEncoder
 
-BASE_PATH = "/v1/resources"
+BASE_PATH = "/v1/functions"
 
 
-class Resources:
+class Functions:
     def __init__(self, session) -> None:
         self._session = session
 
@@ -24,18 +24,18 @@ class Resources:
         async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
             return await resp.text()
 
-    async def create(self, createResourceParameters: CreateResourceParams):
+    async def create(self, createFunctionParameters: CreateFunctionParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createResourceParameters.reprJSON(),
+            data=json.dumps(createFunctionParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
             return await resp.text()
 
-    async def update(self, updateResourceParameters: UpdateResourceParams):
+    async def update(self, updateFunctionParameters: UpdateFunctionParams):
         async with self._session.post(
-            BASE_PATH + "/{}".format(updateResourceParameters.name),
-            json=json.dumps(updateResourceParameters.reprJSON(),
+            BASE_PATH + "/{}".format(updateFunctionParameters.name),
+            json=json.dumps(updateFunctionParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
             return await resp.text()
