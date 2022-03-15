@@ -9,9 +9,10 @@ BASE_PATH = "/v1/connectors"
 
 
 class Streams(object):
-    def __init__(self, ouput: list[str], dynamic: bool) -> None:
-        self.ouput = ouput
+    def __init__(self, dynamic: bool, input=None,  output=None) -> None:
         self.dynamic = dynamic
+        self.input = input
+        self.output = output
 
 
 class ConnectorsResponse(object):
@@ -29,7 +30,7 @@ class ConnectorsResponse(object):
         self.resource_id = resource_id
         self.pipeline_id = pipeline_id
         self.pipeline_name = pipeline_name
-        self.streams = Streams(**json.dumps(streams))
+        self.streams = Streams(**streams)
         self.metadata = metadata
         self.created_at = created_at
         self.updated_at = updated_at

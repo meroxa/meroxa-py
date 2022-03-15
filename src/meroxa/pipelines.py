@@ -10,14 +10,17 @@ BASE_PATH = "/v1/pipelines"
 
 class PipelineResponse(object):
     def __init__(
-            self, created_at: str, id: int, name: str, state: str,
-            updated_at: str, uuid: str, environment=None, metadata=None) -> None:
+            self,  id: int, uuid: str, account_id: int, project_id: int, 
+            name: str, state: str, created_at: str,updated_at: str,  
+            environment=None, metadata=None) -> None:
         self.created_at = created_at
         self.id = id
+        self.uuid = uuid
+        self.account_id = account_id
+        self.project_id = project_id
         self.name = name
         self.state = state
         self.updated_at = updated_at
-        self.uuid = uuid
         self.environment = environment
         self.metadata = metadata
 

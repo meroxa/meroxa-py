@@ -26,7 +26,7 @@ class ResorucesResponse(object):
         self.url = url
         self.metadata = metadata
         self.connector_count = connector_count
-        self.status = Status(**json.dumps(status))
+        self.status = Status(**status)
         self.created_at = created_at
         self.updated_at = updated_at
 
