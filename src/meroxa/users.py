@@ -1,6 +1,5 @@
-import json
 
-from .utils import meroxa_api_response
+from .utils import api_response
 
 
 class UserResponse(object):
@@ -22,8 +21,7 @@ class Users:
     def __init__(self, session) -> None:
         self._session = session
 
-    @meroxa_api_response(return_type=UserResponse)
+    @api_response(UserResponse)
     async def me(self):
         async with self._session.get("/v1/users/me") as resp:
-            res = await resp.text()
-            return UserResponse(**json.loads(res))
+            return await resp.text()

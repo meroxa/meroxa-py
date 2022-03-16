@@ -3,13 +3,13 @@ import json
 from .types import CreateConnectorParams
 from .types import UpdateConnectorParams
 
-from .utils import ComplexEncoder
+from .utils import ComplexEncoder, api_response
 
 BASE_PATH = "/v1/connectors"
 
 
 class Streams(object):
-    def __init__(self, dynamic: bool, input=None,  output=None) -> None:
+    def __init__(self, dynamic: bool, input=None, output=None) -> None:
         self.dynamic = dynamic
         self.input = input
         self.output = output
@@ -40,10 +40,10 @@ class Connectors:
     def __init__(self, session) -> None:
         self._session = session
 
+    @api_response(ConnectorsResponse)
     async def get(self, nameOrId: str):
         async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
-            res = await resp.text()
-            return ConnectorsResponse(**json.loads(res))
+            return await resp.text()
 
     async def list(self):
         async with self._session.get(BASE_PATH) as resp:
@@ -54,20 +54,20 @@ class Connectors:
         async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
             return await resp.text()
 
+    @api_response(ConnectorsResponse)
     async def create(self, createConnectorParameters: CreateConnectorParams):
         async with self._session.post(
             BASE_PATH,
             data=json.dumps(createConnectorParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            res = await resp.text()
-            return ConnectorsResponse(**json.loads(res))
+            return await resp.text()
 
+    @api_response(ConnectorsResponse)
     async def update(self, updateConnectorParameters: UpdateConnectorParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateConnectorParameters.name),
             json=json.dumps(updateConnectorParameters.reprJSON(),
                             cls=ComplexEncoder)
         ) as resp:
-            res = await resp.text()
-            return ConnectorsResponse(**json.loads(res))
+            return await resp.text()

@@ -17,15 +17,14 @@ class ErrorResponse(object):
         self.details = details
 
 
-def meroxa_api_response(*args, **kwargs):
-
-    async def wrapper(func):
-        res = await func(*args, **kwargs)
-
-        try:
-            return await kwargs['return_type'](**json.loads(res))
-        except:
-            return ErrorResponse(**json.loads(res))
-
-    print(args, kwargs)
-    return wrapper
+def api_response(return_type):
+    def mid(func):
+        async def wrapper(*args, **kwargs):
+            res = await func(*args, **kwargs)
+            try:
+                return return_type(**json.loads(res))
+            except:
+                split = res.split('\n', 1)
+                return ErrorResponse(**json.loads(split[1]))
+        return wrapper
+    return mid
