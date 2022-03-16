@@ -1,4 +1,3 @@
-from functools import wraps
 import json
 
 
@@ -22,6 +21,9 @@ def api_response(return_type):
         async def wrapper(*args, **kwargs):
             res = await func(*args, **kwargs)
             try:
+                parsed = json.loads(res)
+                if isinstance(parsed, list):
+                    return [return_type(**par) for par in parsed]
                 return return_type(**json.loads(res))
             except:
                 split = res.split('\n', 1)
