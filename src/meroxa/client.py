@@ -36,17 +36,6 @@ class Meroxa:
 
         self._session = session
 
-        if session is None:
-            session = aiohttp.ClientSession(
-                base_url=api_route,
-                headers={
-                    "Authorization": "Bearer {}".format(auth)
-                },
-                timeout=aiohttp.ClientTimeout(timeout)
-            )
-
-        self._session = session
-
         # Meroxa API Handlers
         self.connectors = Connectors(self._session)
         self.functions = Functions(self._session)
