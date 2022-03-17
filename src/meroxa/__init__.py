@@ -17,3 +17,10 @@ from .types import CreateFunctionParams
 from .types import UpdateFunctionParams
 
 from .utils import ComplexEncoder
+
+from .connectors import ConnectorsResponse
+from .functions import FunctionResponse
+from .pipelines import PipelineResponse
+from .resources import ResourcesResponse
+from .users import UserResponse
+from .utils import ErrorResponse

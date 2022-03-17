@@ -26,7 +26,8 @@ def api_response(return_type):
                     return [return_type(**par) for par in parsed]
                 return return_type(**json.loads(res))
             except:
+                # Some errors don't have newlines in them...
                 split = res.split('\n', 1)
-                return ErrorResponse(**json.loads(split[1]))
+                return ErrorResponse(**json.loads(split[-1]))
         return wrapper
     return mid
