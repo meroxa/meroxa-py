@@ -1,8 +1,9 @@
 
+from .types import MeroxaApiResponse
 from .utils import api_response
 
 
-class UserResponse(object):
+class UserResponse(MeroxaApiResponse):
     def __init__(
             self, uuid: str, email: str, given_name: str,
             family_name: str, email_verified: bool,

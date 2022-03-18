@@ -1,6 +1,7 @@
 import json
 
 from .types import CreateConnectorParams
+from .types import MeroxaApiResponse
 from .types import UpdateConnectorParams
 
 from .utils import ComplexEncoder, api_response
@@ -15,7 +16,7 @@ class Streams(object):
         self.output = output
 
 
-class ConnectorsResponse(object):
+class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
             self, id: int, uuid: str, name: str, type: str,
             config: dict, state: str, resource_id: int,

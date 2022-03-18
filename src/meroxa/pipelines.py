@@ -1,6 +1,7 @@
 import json
 
 from .types import CreatePipelineParams
+from .types import MeroxaApiResponse
 from .types import UpdatePipelineParams
 
 from .utils import ComplexEncoder, api_response
@@ -8,7 +9,7 @@ from .utils import ComplexEncoder, api_response
 BASE_PATH = "/v1/pipelines"
 
 
-class PipelineResponse(object):
+class PipelineResponse(MeroxaApiResponse):
     def __init__(
             self, id: int, uuid: str, account_id: int, project_id: int,
             name: str, state: str, created_at: str, updated_at: str,

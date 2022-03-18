@@ -1,5 +1,6 @@
 import json
 
+from .types import MeroxaApiResponse
 
 class ComplexEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -21,7 +22,7 @@ def parseErrorMessage(error):
         split = error.split('\n', 1)
         return ErrorResponse('Error', split[0])
 
-def api_response(return_type):
+def api_response(return_type: MeroxaApiResponse):
     """ Meroxa API Response function decorator
 
     Takes the response from a function that returns a 

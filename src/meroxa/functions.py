@@ -1,6 +1,7 @@
 import json
 
 from .types import CreateFunctionParams
+from .types import MeroxaApiResponse
 from .types import UpdateFunctionParams
 
 from .utils import ComplexEncoder, api_response
@@ -8,7 +9,7 @@ from .utils import ComplexEncoder, api_response
 BASE_PATH = "/v1/functions"
 
 
-class FunctionResponse(object):
+class FunctionResponse(MeroxaApiResponse):
     def __init__(
             self, uuid: str, name: str, input_stream: str,
             output_stream: str, image: str, command: list[str],

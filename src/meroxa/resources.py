@@ -1,6 +1,7 @@
 import json
 
 from .types import CreateResourceParams
+from .types import MeroxaApiResponse
 from .types import UpdateResourceParams
 
 from .utils import ComplexEncoder, api_response
@@ -14,7 +15,7 @@ class Status(object):
         self.last_updated_at = last_updated_at
 
 
-class ResourcesResponse(object):
+class ResourcesResponse(MeroxaApiResponse):
     def __init__(
             self, id: int, uuid: str, name: str, type: str,
             url: str, metadata: dict, connector_count: int,
