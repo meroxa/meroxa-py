@@ -41,10 +41,10 @@ class Resources:
         async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
             return await resp.text()
 
+    @api_response(ResourcesResponse)
     async def list(self):
         async with self._session.get(BASE_PATH) as resp:
-            res = await resp.text()
-            return [ResourcesResponse(**rr) for rr in json.loads(res)]
+            return await resp.text()
 
     async def delete(self, nameOrId: str):
         async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
