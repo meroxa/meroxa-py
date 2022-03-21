@@ -11,11 +11,10 @@ BASE_PATH = "/v1/pipelines"
 
 class PipelineResponse(MeroxaApiResponse):
     def __init__(
-            self, id: int, uuid: str, account_id: int, project_id: int,
+            self, uuid: str, account_id: int, project_id: int,
             name: str, state: str, created_at: str, updated_at: str,
-            environment=None, metadata=None) -> None:
+            environment=None, metadata=None, **kwargs) -> None:
         self.created_at = created_at
-        self.id = id
         self.uuid = uuid
         self.account_id = account_id
         self.project_id = project_id

@@ -7,7 +7,8 @@ class UserResponse(MeroxaApiResponse):
     def __init__(
             self, uuid: str, email: str, given_name: str,
             family_name: str, email_verified: bool,
-            picture: str, last_login: str, features: list[str]) -> None:
+            picture: str, last_login: str, features: list[str],
+            user_name=None) -> None:
         self.uuid = uuid
         self.email = email
         self.given_name = given_name
@@ -16,6 +17,7 @@ class UserResponse(MeroxaApiResponse):
         self.picture = picture
         self.last_login = last_login
         self.features = features
+        self.user_name = user_name
 
 
 class Users:

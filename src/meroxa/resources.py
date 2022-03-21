@@ -17,10 +17,10 @@ class Status(object):
 
 class ResourcesResponse(MeroxaApiResponse):
     def __init__(
-            self, id: int, uuid: str, name: str, type: str,
+            self, uuid: str, name: str, type: str,
             url: str, metadata: dict, connector_count: int,
-            status: Status, created_at: str, updated_at: str) -> None:
-        self.id = id
+            status: Status, created_at: str, updated_at: str,
+            **kwargs) -> None:
         self.uuid = uuid
         self.name = name
         self.type = type
