@@ -1,6 +1,10 @@
 from enum import Enum
 
 
+class MeroxaApiResponse(object):
+    pass
+
+
 class ClientOptions:
     def __init__(self, auth: str, url: str, timeout=0.0):
         self.auth = auth
