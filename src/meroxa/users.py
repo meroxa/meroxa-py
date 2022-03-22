@@ -8,7 +8,7 @@ class UserResponse(MeroxaApiResponse):
             self, uuid: str, email: str, given_name: str,
             family_name: str, email_verified: bool,
             picture: str, last_login: str, features: list[str],
-            user_name=None) -> None:
+            username=None) -> None:
         self.uuid = uuid
         self.email = email
         self.given_name = given_name
@@ -17,7 +17,7 @@ class UserResponse(MeroxaApiResponse):
         self.picture = picture
         self.last_login = last_login
         self.features = features
-        self.user_name = user_name
+        self.username = username
 
 
 class Users:
