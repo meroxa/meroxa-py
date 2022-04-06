@@ -4,13 +4,10 @@ import setuptools
 #     long_description = fh.read()
 
 setuptools.setup(
-    name="meroxa",
+    name="meroxa-py",
     version="0.0.1",
     author="Meroxa",
     author_email="dev@meroxa.io",
-    description="A small example package",
-    # long_description=long_description,
-    # long_description_content_type="text/markdown",
     url="https://github.com/meroxa/meroxa-py",
     classifiers=[
         "Programming Language :: Python :: 3",
