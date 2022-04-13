@@ -157,14 +157,12 @@ class ConnectorParams:
                  metadata: dict[str: ConnectorType],
                  config: dict[str, str],
                  name: str,
-                 resourceId: int,
-                 pipelineId="",
+                 resourceName: str,
                  pipelineName="") -> None:
         self._metadata = metadata
         self._config = config
         self._name = name
-        self._resourceId = resourceId
-        self._pipelineId = pipelineId
+        self._resourceName = resourceName
         self._pipelineName = pipelineName
 
     def reprJSON(self):
@@ -172,9 +170,8 @@ class ConnectorParams:
             metadata=self._metadata,
             config=self._config,
             name=self._name,
-            resource_id=self._resourceId,
-            pipeline_id=self._pipelineId,
-            pipeline_name=self._pipelineName
+            resource_name=self._resourceName,
+            pipeline_name=self._pipelineName,
         )
 
 
@@ -183,10 +180,9 @@ class CreateConnectorParams(ConnectorParams):
                  metadata: dict[str: ConnectorType],
                  config: dict[str: str],
                  name: str,
-                 resourceId: int,
-                 pipelineId="",
+                 resourceName: str,
                  pipelineName="") -> None:
-        super().__init__(metadata, config, name, resourceId, pipelineId, pipelineName)
+        super().__init__(metadata, config, name, resourceName, pipelineName)
 
 
 class UpdateConnectorParams(ConnectorParams):
@@ -194,10 +190,9 @@ class UpdateConnectorParams(ConnectorParams):
                  metadata: dict[str: ConnectorType],
                  config: dict[str: str],
                  name: str,
-                 resourceId: int,
-                 pipelineId="",
+                 resourceName: int,
                  pipelineName="") -> None:
-        super().__init__(metadata, config, name, resourceId, pipelineId, pipelineName)
+        super().__init__(metadata, config, name, resourceName, pipelineName, pipelineName)
 
 
 class PipelineParams:

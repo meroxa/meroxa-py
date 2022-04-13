@@ -19,8 +19,8 @@ class Streams(object):
 class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
             self, uuid: str, name: str, type: str,
-            config: dict, state: str, resource_id: int,
-            pipeline_id: int, pipeline_name: str, streams: Streams,
+            config: dict, state: str, 
+            resource_name: str, pipeline_name: str, streams: Streams,
             metadata: dict, created_at: str, updated_at: str,
             **kwargs) -> None:
         self.uuid = uuid
@@ -28,8 +28,7 @@ class ConnectorsResponse(MeroxaApiResponse):
         self.type = type
         self.config = config
         self.state = state
-        self.resource_id = resource_id
-        self.pipeline_id = pipeline_id
+        self.resource_name = resource_name
         self.pipeline_name = pipeline_name
         self.streams = Streams(**streams)
         self.metadata = metadata
