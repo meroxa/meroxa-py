@@ -11,9 +11,18 @@ BASE_PATH = "/v1/pipelines"
 
 class PipelineResponse(MeroxaApiResponse):
     def __init__(
-            self, uuid: str, account_id: int, project_id: int,
-            name: str, state: str, created_at: str, updated_at: str,
-            environment=None, metadata=None, **kwargs) -> None:
+        self,
+        uuid: str,
+        account_id: int,
+        project_id: int,
+        name: str,
+        state: str,
+        created_at: str,
+        updated_at: str,
+        environment=None,
+        metadata=None,
+        **kwargs
+    ) -> None:
         self.created_at = created_at
         self.uuid = uuid
         self.account_id = account_id
@@ -47,8 +56,7 @@ class Pipelines:
     async def create(self, createPipelineParameters: CreatePipelineParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createPipelineParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            data=json.dumps(createPipelineParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -56,7 +64,6 @@ class Pipelines:
     async def update(self, updatePipelineParameters: UpdatePipelineParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updatePipelineParameters.name),
-            json=json.dumps(updatePipelineParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            json=json.dumps(updatePipelineParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

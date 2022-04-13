@@ -14,13 +14,15 @@ class ClientOptions:
 
 
 class ResourceCredentials:
-    def __init__(self,
-                 username: str,
-                 password: str,
-                 ca_cert: str,
-                 client_cert: str,
-                 client_cert_key: str,
-                 ssl: bool):
+    def __init__(
+        self,
+        username: str,
+        password: str,
+        ca_cert: str,
+        client_cert: str,
+        client_cert_key: str,
+        ssl: bool,
+    ):
         self.username = username
         self.password = password
         self.ca_cert = ca_cert
@@ -35,7 +37,8 @@ class ResourceCredentials:
             ca_cert=self.ca_cert,
             client_cert=self.client_cert,
             client_cert_key=self.client_cert_key,
-            ssl=self.ssl)
+            ssl=self.ssl,
+        )
 
 
 class EnvironmentIdentifier:
@@ -44,9 +47,7 @@ class EnvironmentIdentifier:
         self.uuid = uuid
 
     def reprJSON(self):
-        return dict(
-            name=self.name) if self.name is not None else dict(
-            uuid=self.uuid)
+        return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
 
 
 class ResourceMetadata:
@@ -80,14 +81,16 @@ class ResourceSSHTunnel:
 
 
 class ResourceParams:
-    def __init__(self,
-                 name: str,
-                 url: str,
-                 createCredentials: ResourceCredentials,
-                 environment: EnvironmentIdentifier,
-                 metadata: ResourceMetadata,
-                 type: ResourceType,
-                 sshTunnel: ResourceSSHTunnel):
+    def __init__(
+        self,
+        name: str,
+        url: str,
+        createCredentials: ResourceCredentials,
+        environment: EnvironmentIdentifier,
+        metadata: ResourceMetadata,
+        type: ResourceType,
+        sshTunnel: ResourceSSHTunnel,
+    ):
         self.name = name
         self.url = url
         self.credentials = createCredentials
@@ -104,48 +107,40 @@ class ResourceParams:
             environment=self.environment,
             metadata=self.metadata,
             type=self.type.value,
-            ssh_tunnel=self.sshTunnel
+            ssh_tunnel=self.sshTunnel,
         )
 
 
 class CreateResourceParams(ResourceParams):
     def __init__(
-            self,
-            name: str,
-            url: str,
-            createCredentials: ResourceCredentials,
-            environment: EnvironmentIdentifier,
-            metadata: ResourceMetadata,
-            type: ResourceType,
-            sshTunnel: ResourceSSHTunnel):
+        self,
+        name: str,
+        url: str,
+        createCredentials: ResourceCredentials,
+        environment: EnvironmentIdentifier,
+        metadata: ResourceMetadata,
+        type: ResourceType,
+        sshTunnel: ResourceSSHTunnel,
+    ):
         super().__init__(
-            name,
-            url,
-            createCredentials,
-            environment,
-            metadata,
-            type,
-            sshTunnel)
+            name, url, createCredentials, environment, metadata, type, sshTunnel
+        )
 
 
 class UpdateResourceParams(ResourceParams):
     def __init__(
-            self,
-            name: str,
-            url: str,
-            createCredentials: ResourceCredentials,
-            environment: EnvironmentIdentifier,
-            metadata: ResourceMetadata,
-            type: ResourceType,
-            sshTunnel: ResourceSSHTunnel):
+        self,
+        name: str,
+        url: str,
+        createCredentials: ResourceCredentials,
+        environment: EnvironmentIdentifier,
+        metadata: ResourceMetadata,
+        type: ResourceType,
+        sshTunnel: ResourceSSHTunnel,
+    ):
         super().__init__(
-            name,
-            url,
-            createCredentials,
-            environment,
-            metadata,
-            type,
-            sshTunnel)
+            name, url, createCredentials, environment, metadata, type, sshTunnel
+        )
 
 
 class ConnectorType(Enum):
@@ -154,14 +149,14 @@ class ConnectorType(Enum):
 
 
 class ConnectorParams:
-    def __init__(self,
-                 config: dict[str, str],
-                 name: str,
-                 resourceName: str,
-                 pipelineName: str,
-                 metadata: dict[str: ConnectorType]) -> None:
+    def __init__(
+        self,
+        config: dict[str, str],
+        resourceName: str,
+        pipelineName: str,
+        metadata: dict[str:ConnectorType],
+    ) -> None:
         self._config = config
-        self._name = name
         self._resourceName = resourceName
         self._pipelineName = pipelineName
         self._metadata = metadata
@@ -169,66 +164,59 @@ class ConnectorParams:
     def reprJSON(self):
         return dict(
             config=self._config,
-            name=self._name,
             resource_name=self._resourceName,
             pipeline_name=self._pipelineName,
-            metadata=self._metadata
+            metadata=self._metadata,
         )
 
 
 class CreateConnectorParams(ConnectorParams):
-    def __init__(self,
-                 config: dict[str: str],
-                 name: str,
-                 resourceName: str,
-                 pipelineName:str,
-                 metadata:dict[str: ConnectorType]) -> None:
-        super().__init__(config, name, resourceName, pipelineName, metadata)
+    def __init__(
+        self,
+        config: dict[str:str],
+        resourceName: str,
+        pipelineName: str,
+        metadata: dict[str:ConnectorType],
+    ) -> None:
+        super().__init__(config, resourceName, pipelineName, metadata)
 
 
 class UpdateConnectorParams(ConnectorParams):
-    def __init__(self,
-                 config: dict[str: str],
-                 name: str,
-                 resourceName: str,
-                 pipelineName:str,
-                 metadata:dict[str: ConnectorType]) -> None:
-        super().__init__(metadata, config, name, resourceName, pipelineName, metadata)
+    def __init__(
+        self,
+        config: dict[str:str],
+        resourceName: str,
+        pipelineName: str,
+        metadata: dict[str:ConnectorType],
+    ) -> None:
+        super().__init__(metadata, config, resourceName, pipelineName, metadata)
 
 
 class PipelineParams:
     def __init__(
-            self,
-            metadata: list[str],
-            name: str,
-            environment: EnvironmentIdentifier) -> None:
+        self, metadata: list[str], name: str, environment: EnvironmentIdentifier
+    ) -> None:
         self._metadata = metadata
         self._name = name
         self._environment = environment
 
     def reprJSON(self):
         return dict(
-            metadata=self._metadata,
-            name=self._name,
-            environment=self._environment
+            metadata=self._metadata, name=self._name, environment=self._environment
         )
 
 
 class CreatePipelineParams(PipelineParams):
     def __init__(
-            self,
-            metadata: list[str],
-            name: str,
-            environment: EnvironmentIdentifier) -> None:
+        self, metadata: list[str], name: str, environment: EnvironmentIdentifier
+    ) -> None:
         super().__init__(metadata, name, environment)
 
 
 class UpdatePipelineParams(PipelineParams):
     def __init__(
-            self,
-            metadata: list[str],
-            name: str,
-            environment: EnvironmentIdentifier) -> None:
+        self, metadata: list[str], name: str, environment: EnvironmentIdentifier
+    ) -> None:
         super().__init__(metadata, name, environment)
 
 
@@ -242,13 +230,14 @@ class PipelineIdentifiers:
 
 class FunctionParams:
     def __init__(
-            self,
-            inputStream: str,
-            image: str,
-            command: list[str],
-            args: list[str],
-            pipelineIdentifiers: PipelineIdentifiers,
-            envVars: dict[str, str]) -> None:
+        self,
+        inputStream: str,
+        image: str,
+        command: list[str],
+        args: list[str],
+        pipelineIdentifiers: PipelineIdentifiers,
+        envVars: dict[str, str],
+    ) -> None:
         self._inputStream = inputStream
         self._image = image
         self._command = command
@@ -263,29 +252,35 @@ class FunctionParams:
             command=self._command,
             args=self._args,
             pipeline=self._pipeline,
-            env_vars=self._envVars
+            env_vars=self._envVars,
         )
 
 
 class CreateFunctionParams(FunctionParams):
-    def __init__(self,
-                 inputStream: str,
-                 image: str,
-                 command: list[str],
-                 args: list[str],
-                 pipelineIdentifiers: PipelineIdentifiers,
-                 envVars: dict[str,
-                               str]) -> None:
-        super().__init__(inputStream, image, command, args, pipelineIdentifiers, envVars)
+    def __init__(
+        self,
+        inputStream: str,
+        image: str,
+        command: list[str],
+        args: list[str],
+        pipelineIdentifiers: PipelineIdentifiers,
+        envVars: dict[str, str],
+    ) -> None:
+        super().__init__(
+            inputStream, image, command, args, pipelineIdentifiers, envVars
+        )
 
 
 class UpdateFunctionParams(FunctionParams):
-    def __init__(self,
-                 inputStream: str,
-                 image: str,
-                 command: list[str],
-                 args: list[str],
-                 pipelineIdentifiers: PipelineIdentifiers,
-                 envVars: dict[str,
-                               str]) -> None:
-        super().__init__(inputStream, image, command, args, pipelineIdentifiers, envVars)
+    def __init__(
+        self,
+        inputStream: str,
+        image: str,
+        command: list[str],
+        args: list[str],
+        pipelineIdentifiers: PipelineIdentifiers,
+        envVars: dict[str, str],
+    ) -> None:
+        super().__init__(
+            inputStream, image, command, args, pipelineIdentifiers, envVars
+        )

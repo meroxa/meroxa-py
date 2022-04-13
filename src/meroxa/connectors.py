@@ -17,11 +17,20 @@ class Streams(object):
 
 class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
-            self, uuid: str, name: str, type: str,
-            config: dict, state: str, 
-            resource_name: str, pipeline_name: str, streams: Streams,
-            metadata: dict, created_at: str, updated_at: str, 
-            **kwargs) -> None:
+        self,
+        uuid: str,
+        name: str,
+        type: str,
+        config: dict,
+        state: str,
+        resource_name: str,
+        pipeline_name: str,
+        streams: Streams,
+        metadata: dict,
+        created_at: str,
+        updated_at: str,
+        **kwargs
+    ) -> None:
         self.uuid = uuid
         self.name = name
         self.type = type
@@ -57,8 +66,7 @@ class Connectors:
     async def create(self, createConnectorParameters: CreateConnectorParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createConnectorParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            data=json.dumps(createConnectorParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -66,7 +74,6 @@ class Connectors:
     async def update(self, updateConnectorParameters: UpdateConnectorParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateConnectorParameters.name),
-            json=json.dumps(updateConnectorParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            json=json.dumps(updateConnectorParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
