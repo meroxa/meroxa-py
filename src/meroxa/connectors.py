@@ -3,7 +3,6 @@ import json
 from .types import CreateConnectorParams
 from .types import MeroxaApiResponse
 from .types import UpdateConnectorParams
-
 from .utils import ComplexEncoder, api_response
 
 BASE_PATH = "/v1/connectors"
@@ -21,7 +20,7 @@ class ConnectorsResponse(MeroxaApiResponse):
             self, uuid: str, name: str, type: str,
             config: dict, state: str, 
             resource_name: str, pipeline_name: str, streams: Streams,
-            metadata: dict, created_at: str, updated_at: str,
+            metadata: dict, created_at: str, updated_at: str, 
             **kwargs) -> None:
         self.uuid = uuid
         self.name = name

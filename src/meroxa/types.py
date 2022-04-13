@@ -1,3 +1,4 @@
+from ast import Str
 from enum import Enum
 
 
@@ -154,45 +155,45 @@ class ConnectorType(Enum):
 
 class ConnectorParams:
     def __init__(self,
-                 metadata: dict[str: ConnectorType],
                  config: dict[str, str],
                  name: str,
                  resourceName: str,
-                 pipelineName="") -> None:
-        self._metadata = metadata
+                 pipelineName: str,
+                 metadata: dict[str: ConnectorType]) -> None:
         self._config = config
         self._name = name
         self._resourceName = resourceName
         self._pipelineName = pipelineName
+        self._metadata = metadata
 
     def reprJSON(self):
         return dict(
-            metadata=self._metadata,
             config=self._config,
             name=self._name,
             resource_name=self._resourceName,
             pipeline_name=self._pipelineName,
+            metadata=self._metadata
         )
 
 
 class CreateConnectorParams(ConnectorParams):
     def __init__(self,
-                 metadata: dict[str: ConnectorType],
                  config: dict[str: str],
                  name: str,
                  resourceName: str,
-                 pipelineName="") -> None:
-        super().__init__(metadata, config, name, resourceName, pipelineName)
+                 pipelineName:str,
+                 metadata:dict[str: ConnectorType]) -> None:
+        super().__init__(config, name, resourceName, pipelineName, metadata)
 
 
 class UpdateConnectorParams(ConnectorParams):
     def __init__(self,
-                 metadata: dict[str: ConnectorType],
                  config: dict[str: str],
                  name: str,
-                 resourceName: int,
-                 pipelineName="") -> None:
-        super().__init__(metadata, config, name, resourceName, pipelineName, pipelineName)
+                 resourceName: str,
+                 pipelineName:str,
+                 metadata:dict[str: ConnectorType]) -> None:
+        super().__init__(metadata, config, name, resourceName, pipelineName, metadata)
 
 
 class PipelineParams:
