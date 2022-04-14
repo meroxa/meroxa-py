@@ -5,7 +5,7 @@ from .types import MeroxaApiResponse
 
 class ComplexEncoder(json.JSONEncoder):
     def default(self, obj):
-        if hasattr(obj, 'reprJSON'):
+        if hasattr(obj, "reprJSON"):
             return obj.reprJSON()
         else:
             return json.JSONEncoder.default(self, obj)
@@ -22,12 +22,12 @@ def parseErrorMessage(error):
     try:
         return ErrorResponse(**json.loads(error))
     except BaseException:
-        split = error.split('\n', 1)
-        return ErrorResponse('Error', split[0])
+        split = error.split("\n", 1)
+        return ErrorResponse("Error", split[0])
 
 
 def api_response(return_type: MeroxaApiResponse):
-    """ Meroxa API Response function decorator
+    """Meroxa API Response function decorator
 
     Takes the response from a function that returns a
     `aiohttp.ClientResponse.text()` and parses the response
@@ -37,6 +37,7 @@ def api_response(return_type: MeroxaApiResponse):
     :param return_type object of type MeroxaApiResponse
     :rtype: (ErrorResponse, MeroxaApiResponse)
     """
+
     def mid(func):
         async def wrapper(*args, **kwargs):
             res = await func(*args, **kwargs)
@@ -47,5 +48,7 @@ def api_response(return_type: MeroxaApiResponse):
                 return (None, return_type(**json.loads(res)))
             except BaseException:
                 return (parseErrorMessage(res), None)
+
         return wrapper
+
     return mid

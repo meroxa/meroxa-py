@@ -17,10 +17,18 @@ class Status(object):
 
 class ResourcesResponse(MeroxaApiResponse):
     def __init__(
-            self, uuid: str, name: str, type: str,
-            url: str, metadata: dict, connector_count: int,
-            status: Status, created_at: str, updated_at: str,
-            **kwargs) -> None:
+        self,
+        uuid: str,
+        name: str,
+        type: str,
+        url: str,
+        metadata: dict,
+        connector_count: int,
+        status: Status,
+        created_at: str,
+        updated_at: str,
+        **kwargs
+    ) -> None:
         self.uuid = uuid
         self.name = name
         self.type = type
@@ -54,8 +62,7 @@ class Resources:
     async def create(self, createResourceParameters: CreateResourceParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createResourceParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            data=json.dumps(createResourceParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -63,8 +70,7 @@ class Resources:
     async def update(self, updateResourceParameters: UpdateResourceParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateResourceParameters.name),
-            json=json.dumps(updateResourceParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            json=json.dumps(updateResourceParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             res = await resp.text()
             return ResourcesResponse(**json.loads(res))

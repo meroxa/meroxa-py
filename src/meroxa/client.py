@@ -10,28 +10,21 @@ from .constants import MEROXA_API_ROUTE, MEROXA_TIMEOUT
 
 
 class Meroxa:
-    """Asynchronous Meroxa API handler
-    """
+    """Asynchronous Meroxa API handler"""
 
     # Default Meroxa API route
     meroxa_api = MEROXA_API_ROUTE
 
     def __init__(
-            self,
-            auth,
-            api_route=MEROXA_API_ROUTE,
-            timeout=MEROXA_TIMEOUT,
-            session=None):
-        """Create a session if one is not provided.
-        """
+        self, auth, api_route=MEROXA_API_ROUTE, timeout=MEROXA_TIMEOUT, session=None
+    ):
+        """Create a session if one is not provided."""
 
         if session is None:
             session = aiohttp.ClientSession(
                 base_url=api_route,
-                headers={
-                    "Authorization": "Bearer {}".format(auth)
-                },
-                timeout=aiohttp.ClientTimeout(timeout)
+                headers={"Authorization": "Bearer {}".format(auth)},
+                timeout=aiohttp.ClientTimeout(timeout),
             )
 
         self._session = session
@@ -52,6 +45,7 @@ class Meroxa:
     async with meroxa.Meroxa(session) as m:
         m.doTheThing()
     """
+
     async def __aenter__(self):
         return self
 

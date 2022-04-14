@@ -3,7 +3,6 @@ import json
 from .types import CreateConnectorParams
 from .types import MeroxaApiResponse
 from .types import UpdateConnectorParams
-
 from .utils import ComplexEncoder, api_response
 
 BASE_PATH = "/v1/connectors"
@@ -18,18 +17,26 @@ class Streams(object):
 
 class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
-            self, uuid: str, name: str, type: str,
-            config: dict, state: str, resource_id: int,
-            pipeline_id: int, pipeline_name: str, streams: Streams,
-            metadata: dict, created_at: str, updated_at: str,
-            **kwargs) -> None:
+        self,
+        uuid: str,
+        name: str,
+        type: str,
+        config: dict,
+        state: str,
+        resource_name: str,
+        pipeline_name: str,
+        streams: Streams,
+        metadata: dict,
+        created_at: str,
+        updated_at: str,
+        **kwargs
+    ) -> None:
         self.uuid = uuid
         self.name = name
         self.type = type
         self.config = config
         self.state = state
-        self.resource_id = resource_id
-        self.pipeline_id = pipeline_id
+        self.resource_name = resource_name
         self.pipeline_name = pipeline_name
         self.streams = Streams(**streams)
         self.metadata = metadata
@@ -59,8 +66,7 @@ class Connectors:
     async def create(self, createConnectorParameters: CreateConnectorParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createConnectorParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            data=json.dumps(createConnectorParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -68,7 +74,6 @@ class Connectors:
     async def update(self, updateConnectorParameters: UpdateConnectorParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateConnectorParameters.name),
-            json=json.dumps(updateConnectorParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            json=json.dumps(updateConnectorParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

@@ -11,14 +11,22 @@ BASE_PATH = "/v1/functions"
 
 class FunctionResponse(MeroxaApiResponse):
     def __init__(
-            self, uuid: str, name: str, input_stream: str,
-            output_stream: str, image: str, command: list[str],
-            args: list[str], env_vars: dict, status: dict,
-            pipeline: dict) -> None:
+        self,
+        uuid: str,
+        name: str,
+        input_stream: str,
+        output_stream: str,
+        image: str,
+        command: list[str],
+        args: list[str],
+        env_vars: dict,
+        status: dict,
+        pipeline: dict,
+    ) -> None:
         self.uuid = uuid
         self.name = name
         self.input_stream = input_stream
-        self.ouput_stream = output_stream
+        self.output_stream = output_stream
         self.image = image
         self.command = command
         self.args = args
@@ -49,8 +57,7 @@ class Functions:
     async def create(self, createFunctionParameters: CreateFunctionParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createFunctionParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            data=json.dumps(createFunctionParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -58,7 +65,6 @@ class Functions:
     async def update(self, updateFunctionParameters: UpdateFunctionParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateFunctionParameters.name),
-            json=json.dumps(updateFunctionParameters.reprJSON(),
-                            cls=ComplexEncoder)
+            json=json.dumps(updateFunctionParameters.reprJSON(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

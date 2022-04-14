@@ -8,11 +8,13 @@ from .types import ClientOptions
 from .types import CreateConnectorParams
 from .types import CreateFunctionParams
 from .types import CreateResourceParams
+from .types import CreatePipelineParams
 from .types import EnvironmentIdentifier
 from .types import ResourceCredentials
 from .types import ResourceMetadata
 from .types import ResourceSSHTunnel
 from .types import ResourceType
+from .types import ConnectorType
 from .types import UpdateConnectorParams
 from .types import UpdateFunctionParams
 from .types import UpdateResourceParams
@@ -32,11 +34,13 @@ __all__ = [
     CreateConnectorParams,
     CreateFunctionParams,
     CreateResourceParams,
+    CreatePipelineParams,
     EnvironmentIdentifier,
     ResourceCredentials,
     ResourceMetadata,
     ResourceSSHTunnel,
     ResourceType,
+    ConnectorType,
     UpdateConnectorParams,
     UpdateFunctionParams,
     UpdateResourceParams,
