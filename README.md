@@ -1,7 +1,4 @@
-# Official Meroxa Python Client
-
-This repo defines a Python wrapper around the Platform API. It provides functions for interacting with Connectors, Endpoints, Environments, Pipelines, Resources, and Resource Types.
-
+# Meroxa-py
 
 ## Installing
 
