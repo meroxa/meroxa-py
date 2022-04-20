@@ -45,8 +45,8 @@ class Resources:
         self._session = session
 
     @api_response(ResourcesResponse)
-    async def get(self, nameOrId: str):
-        async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def get(self, name_or_id: str):
+        async with self._session.get(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
@@ -54,15 +54,15 @@ class Resources:
         async with self._session.get(BASE_PATH) as resp:
             return await resp.text()
 
-    async def delete(self, nameOrId: str):
-        async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def delete(self, name_or_id: str):
+        async with self._session.delete(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
     async def create(self, createResourceParameters: CreateResourceParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createResourceParameters.reprJSON(), cls=ComplexEncoder),
+            data=json.dumps(createResourceParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -70,7 +70,7 @@ class Resources:
     async def update(self, updateResourceParameters: UpdateResourceParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateResourceParameters.name),
-            json=json.dumps(updateResourceParameters.reprJSON(), cls=ComplexEncoder),
+            json=json.dumps(updateResourceParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             res = await resp.text()
             return ResourcesResponse(**json.loads(res))

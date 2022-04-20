@@ -49,8 +49,8 @@ class Connectors:
         self._session = session
 
     @api_response(ConnectorsResponse)
-    async def get(self, nameOrId: str):
-        async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def get(self, name_or_id: str):
+        async with self._session.get(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
@@ -58,15 +58,15 @@ class Connectors:
         async with self._session.get(BASE_PATH) as resp:
             return await resp.text()
 
-    async def delete(self, nameOrId: str):
-        async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def delete(self, name_or_id: str):
+        async with self._session.delete(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
     async def create(self, createConnectorParameters: CreateConnectorParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createConnectorParameters.reprJSON(), cls=ComplexEncoder),
+            data=json.dumps(createConnectorParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -74,6 +74,6 @@ class Connectors:
     async def update(self, updateConnectorParameters: UpdateConnectorParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updateConnectorParameters.name),
-            json=json.dumps(updateConnectorParameters.reprJSON(), cls=ComplexEncoder),
+            json=json.dumps(updateConnectorParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

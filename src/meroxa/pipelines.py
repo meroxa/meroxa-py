@@ -39,8 +39,8 @@ class Pipelines:
         self._session = session
 
     @api_response(PipelineResponse)
-    async def get(self, nameOrId: str):
-        async with self._session.get(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def get(self, name_or_id: str):
+        async with self._session.get(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(PipelineResponse)
@@ -48,15 +48,15 @@ class Pipelines:
         async with self._session.get(BASE_PATH) as resp:
             return await resp.text()
 
-    async def delete(self, nameOrId: str):
-        async with self._session.delete(BASE_PATH + "/{}".format(nameOrId)) as resp:
+    async def delete(self, name_or_id: str):
+        async with self._session.delete(BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(PipelineResponse)
     async def create(self, createPipelineParameters: CreatePipelineParams):
         async with self._session.post(
             BASE_PATH,
-            data=json.dumps(createPipelineParameters.reprJSON(), cls=ComplexEncoder),
+            data=json.dumps(createPipelineParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
 
@@ -64,6 +64,6 @@ class Pipelines:
     async def update(self, updatePipelineParameters: UpdatePipelineParams):
         async with self._session.post(
             BASE_PATH + "/{}".format(updatePipelineParameters.name),
-            json=json.dumps(updatePipelineParameters.reprJSON(), cls=ComplexEncoder),
+            json=json.dumps(updatePipelineParameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

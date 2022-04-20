@@ -3,7 +3,8 @@ from enum import Enum
 
 
 class MeroxaApiResponse(object):
-    pass
+    def __init__(self, *args, **kwargs):
+        ...
 
 
 class ClientOptions:
@@ -30,7 +31,7 @@ class ResourceCredentials:
         self.client_cert_key = client_cert_key
         self.ssl = ssl
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(
             username=self.username,
             password=self.password,
@@ -46,7 +47,7 @@ class EnvironmentIdentifier:
         self.name = name
         self.uuid = uuid
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
 
 
@@ -54,7 +55,7 @@ class ResourceMetadata:
     def __init__(self, metadata: dict):
         self.metadata = metadata
 
-    def reprJSON(self):
+    def repr_json(self):
         return self.metadata
 
 
@@ -76,7 +77,7 @@ class ResourceSSHTunnel:
         self.address = address
         self.privateKey = privateKey
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(address=self.address, private_key=self.privateKey)
 
 
@@ -99,7 +100,7 @@ class ResourceParams:
         self.type = type
         self.sshTunnel = sshTunnel
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(
             name=self.name,
             url=self.url,
@@ -154,14 +155,14 @@ class ConnectorParams:
         config: dict[str, str],
         resourceName: str,
         pipelineName: str,
-        metadata: dict[str:ConnectorType],
+        metadata: dict[str, ConnectorType],
     ) -> None:
         self._config = config
         self._resourceName = resourceName
         self._pipelineName = pipelineName
         self._metadata = metadata
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(
             config=self._config,
             resource_name=self._resourceName,
@@ -173,10 +174,10 @@ class ConnectorParams:
 class CreateConnectorParams(ConnectorParams):
     def __init__(
         self,
-        config: dict[str:str],
+        config: dict[str, str],
         resourceName: str,
         pipelineName: str,
-        metadata: dict[str:ConnectorType],
+        metadata: dict[str, ConnectorType],
     ) -> None:
         super().__init__(config, resourceName, pipelineName, metadata)
 
@@ -184,12 +185,12 @@ class CreateConnectorParams(ConnectorParams):
 class UpdateConnectorParams(ConnectorParams):
     def __init__(
         self,
-        config: dict[str:str],
+        config: dict[str, str],
         resourceName: str,
         pipelineName: str,
-        metadata: dict[str:ConnectorType],
+        metadata: dict[str, ConnectorType],
     ) -> None:
-        super().__init__(metadata, config, resourceName, pipelineName, metadata)
+        super().__init__(config, resourceName, pipelineName, metadata)
 
 
 class PipelineParams:
@@ -200,7 +201,7 @@ class PipelineParams:
         self._name = name
         self._environment = environment
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(
             metadata=self._metadata, name=self._name, environment=self._environment
         )
@@ -224,63 +225,94 @@ class PipelineIdentifiers:
     def __init__(self, name) -> None:
         self._name = name
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(name=self._name)
 
 
 class FunctionParams:
     def __init__(
         self,
-        inputStream: str,
+        uuid: str,
+        name: str,
+        input_stream: str,
+        output_stream: str,
         image: str,
         command: list[str],
         args: list[str],
-        pipelineIdentifiers: PipelineIdentifiers,
-        envVars: dict[str, str],
+        env_vars: dict[str, str],
+        pipeline: PipelineIdentifiers,
     ) -> None:
-        self._inputStream = inputStream
+        self._uuid = uuid
+        self._name = name
+        self._output_stream = output_stream
+        self._input_stream = input_stream
         self._image = image
         self._command = command
         self._args = args
-        self._pipeline = pipelineIdentifiers
-        self._envVars = envVars
+        self._pipeline = pipeline
+        self._env_vars = env_vars
 
-    def reprJSON(self):
+    def repr_json(self):
         return dict(
-            input_stream=self._inputStream,
+            uuid=self._uuid,
+            name=self._name,
+            input_stream=self._input_stream,
+            output_stream=self._output_stream,
             image=self._image,
             command=self._command,
             args=self._args,
             pipeline=self._pipeline,
-            env_vars=self._envVars,
+            env_vars=self._env_vars,
         )
 
 
 class CreateFunctionParams(FunctionParams):
     def __init__(
         self,
-        inputStream: str,
+        uuid: str,
+        name: str,
+        input_stream: str,
+        output_stream: str,
         image: str,
         command: list[str],
         args: list[str],
-        pipelineIdentifiers: PipelineIdentifiers,
-        envVars: dict[str, str],
+        env_vars: dict[str, str],
+        pipeline: PipelineIdentifiers,
     ) -> None:
         super().__init__(
-            inputStream, image, command, args, pipelineIdentifiers, envVars
+            uuid,
+            name,
+            input_stream,
+            output_stream,
+            image,
+            command,
+            args,
+            env_vars,
+            pipeline,
         )
 
 
 class UpdateFunctionParams(FunctionParams):
     def __init__(
         self,
-        inputStream: str,
+        uuid: str,
+        name: str,
+        input_stream: str,
+        output_stream: str,
         image: str,
         command: list[str],
         args: list[str],
-        pipelineIdentifiers: PipelineIdentifiers,
-        envVars: dict[str, str],
+        env_vars: dict[str, str],
+        pipeline: PipelineIdentifiers,
     ) -> None:
         super().__init__(
-            inputStream, image, command, args, pipelineIdentifiers, envVars
+            uuid,
+            name,
+            input_stream,
+            output_stream,
+            image,
+            command,
+            args,
+            env_vars,
+            pipeline,
         )
