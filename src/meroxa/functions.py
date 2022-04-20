@@ -20,7 +20,6 @@ class FunctionResponse(MeroxaApiResponse):
         status: dict,
         pipeline: dict,
     ) -> None:
-        super().__init__()
         self.uuid = uuid
         self.name = name
         self.input_stream = input_stream
@@ -31,6 +30,7 @@ class FunctionResponse(MeroxaApiResponse):
         self.env_vars = env_vars
         self.status = status
         self.pipline = pipeline
+        super().__init__()
 
 
 class PipelineIdentifiers:
