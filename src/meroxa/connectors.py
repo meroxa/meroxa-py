@@ -5,7 +5,7 @@ from typing import Any
 from .types import MeroxaApiResponse, ConnectorType, EntityIdentifier
 from .utils import ComplexEncoder, api_response
 
-BASE_PATH = "/v1/connectors"
+CONNECTORS_BASE_PATH = "/v1/connectors"
 
 
 class ConnectorState(Enum):
@@ -103,22 +103,22 @@ class Connectors:
 
     @api_response(ConnectorsResponse)
     async def get(self, name_or_id: str):
-        async with self._session.get(BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.get(CONNECTORS_BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
     async def list(self):
-        async with self._session.get(BASE_PATH) as resp:
+        async with self._session.get(CONNECTORS_BASE_PATH) as resp:
             return await resp.text()
 
     async def delete(self, name_or_id: str):
-        async with self._session.delete(BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.delete(CONNECTORS_BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
     async def create(self, create_connector_parameters: CreateConnectorParams):
         async with self._session.post(
-            BASE_PATH,
+            CONNECTORS_BASE_PATH,
             data=json.dumps(
                 create_connector_parameters.repr_json(), cls=ComplexEncoder
             ),
@@ -130,7 +130,7 @@ class Connectors:
         self, name_or_id: str, update_connector_parameters: UpdateConnectorParams
     ):
         async with self._session.post(
-            BASE_PATH + "/{}".format(name_or_id),
+                CONNECTORS_BASE_PATH + "/{}".format(name_or_id),
             json=json.dumps(
                 update_connector_parameters.repr_json(), cls=ComplexEncoder
             ),

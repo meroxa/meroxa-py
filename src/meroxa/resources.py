@@ -6,7 +6,7 @@ from .utils import ComplexEncoder, api_response
 
 from typing import Any
 
-BASE_PATH = "/v1/resources"
+RESOURCE_BASE_PATH = "/v1/resources"
 
 
 class Status(object):
@@ -171,22 +171,22 @@ class Resources:
 
     @api_response(ResourcesResponse)
     async def get(self, name_or_id: str):
-        async with self._session.get(BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.get(RESOURCE_BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
     async def list(self):
-        async with self._session.get(BASE_PATH) as resp:
+        async with self._session.get(RESOURCE_BASE_PATH) as resp:
             return await resp.text()
 
     async def delete(self, name_or_id: str):
-        async with self._session.delete(BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.delete(RESOURCE_BASE_PATH + "/{}".format(name_or_id)) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
     async def create(self, create_resource_parameters: CreateResourceParams):
         async with self._session.post(
-            BASE_PATH,
+            RESOURCE_BASE_PATH,
             data=json.dumps(create_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()
@@ -196,7 +196,7 @@ class Resources:
         self, name_or_id: str, update_resource_parameters: UpdateResourceParams
     ):
         async with self._session.post(
-            BASE_PATH + "/{}".format(name_or_id),
+                RESOURCE_BASE_PATH + "/{}".format(name_or_id),
             json=json.dumps(update_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             res = await resp.text()
