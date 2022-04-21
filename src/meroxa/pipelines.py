@@ -22,15 +22,15 @@ class PipelineResponse(MeroxaApiResponse):
         metadata: dict[str, Any] = None,
         **kwargs
     ) -> None:
-        self._created_at = created_at
-        self._uuid = uuid
-        self._account_id = account_id
-        self._project_id = project_id
-        self._name = name
-        self._state = state
-        self._updated_at = updated_at
-        self._environment = environment
-        self._metadata = metadata
+        self.created_at = created_at
+        self.uuid = uuid
+        self.account_id = account_id
+        self.project_id = project_id
+        self.name = name
+        self.state = state
+        self.updated_at = updated_at
+        self.environment = environment
+        self.metadata = metadata
         super().__init__()
 
 

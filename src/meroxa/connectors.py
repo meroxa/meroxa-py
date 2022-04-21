@@ -20,12 +20,15 @@ class ConnectorState(Enum):
 class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
         self,
+        id: str,
         config: dict[str, str],
         created_at: str,
         metadata: dict[str, str],
         name: str,
         resource_name: str,
         pipeline_name: str,
+        resource_id: str,
+        pipeline_id: str,
         streams: dict[str, str],
         state: ConnectorState,
         type: ConnectorType,
@@ -34,19 +37,22 @@ class ConnectorsResponse(MeroxaApiResponse):
         trace: str = None,
         environment: EntityIdentifier = None,
     ) -> None:
-        self._config = config
-        self._created_at = created_at
-        self._metadata = metadata
-        self._name = name
-        self._resource_name = resource_name
-        self._pipeline_name = pipeline_name
-        self._streams = streams
-        self._state = state
-        self._type = type
-        self._updated_at = updated_at
-        self._uuid = uuid
-        self._trace = trace
-        self._environment = environment
+        self.id = id
+        self.config = config
+        self.created_at = created_at
+        self.metadata = metadata
+        self.name = name
+        self.resource_name = resource_name
+        self.pipeline_name = pipeline_name
+        self.resource_id = resource_id
+        self.pipeline_id = pipeline_id
+        self.streams = streams
+        self.state = state
+        self.type = type
+        self.updated_at = updated_at
+        self.uuid = uuid
+        self.trace = trace
+        self.environment = environment
         super().__init__()
 
 
@@ -56,8 +62,8 @@ class CreateConnectorParams:
         resource_name: str,
         pipeline_name: str,
         name: str = None,
-        config: dict[str, Any] = None,
-        metadata: dict[str, Any] = None,
+        config: dict[str, str] = None,
+        metadata: dict[str, str] = None,
         connector_type: ConnectorType = None,
         input: str = None,
     ) -> None:
@@ -103,7 +109,9 @@ class Connectors:
 
     @api_response(ConnectorsResponse)
     async def get(self, name_or_id: str):
-        async with self._session.get(CONNECTORS_BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.get(
+            CONNECTORS_BASE_PATH + "/{}".format(name_or_id)
+        ) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
@@ -112,7 +120,9 @@ class Connectors:
             return await resp.text()
 
     async def delete(self, name_or_id: str):
-        async with self._session.delete(CONNECTORS_BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.delete(
+            CONNECTORS_BASE_PATH + "/{}".format(name_or_id)
+        ) as resp:
             return await resp.text()
 
     @api_response(ConnectorsResponse)
@@ -130,7 +140,7 @@ class Connectors:
         self, name_or_id: str, update_connector_parameters: UpdateConnectorParams
     ):
         async with self._session.post(
-                CONNECTORS_BASE_PATH + "/{}".format(name_or_id),
+            CONNECTORS_BASE_PATH + "/{}".format(name_or_id),
             json=json.dumps(
                 update_connector_parameters.repr_json(), cls=ComplexEncoder
             ),

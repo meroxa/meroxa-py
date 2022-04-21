@@ -1,7 +1,7 @@
 import json
 
 from enum import Enum
-from .types import MeroxaApiResponse
+from .types import MeroxaApiResponse, EnvironmentIdentifier, ResourceType
 from .utils import ComplexEncoder, api_response
 
 from typing import Any
@@ -10,10 +10,15 @@ RESOURCE_BASE_PATH = "/v1/resources"
 
 
 class Status(object):
-    def __init__(self, state: str, details: str, last_updated_at: str) -> None:
-        self._state = state
-        self._details = details
-        self._last_updated_at = last_updated_at
+    def __init__(
+        self,
+        state: str,
+        last_updated_at: str,
+        details: str = None,
+    ) -> None:
+        self.state = state
+        self.details = details
+        self.last_updated_at = last_updated_at
 
 
 class ResourcesResponse(MeroxaApiResponse):
@@ -39,6 +44,7 @@ class ResourcesResponse(MeroxaApiResponse):
         self.status = Status(**status)
         self.created_at = created_at
         self.updated_at = updated_at
+        super().__init__()
 
 
 class ResourceCredentials:
@@ -67,37 +73,6 @@ class ResourceCredentials:
             client_cert_key=self._client_cert_key,
             ssl=self._ssl,
         )
-
-
-class EnvironmentIdentifier:
-    def __init__(self, name=None, uuid=None):
-        self.name = name
-        self.uuid = uuid
-
-    def repr_json(self):
-        return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
-
-
-class EntityIdentifier:
-    def __init__(self, name=None, uuid=None):
-        self.name = name
-        self.uuid = uuid
-
-    def repr_json(self):
-        return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
-
-
-class ResourceType(Enum):
-    POSTGRES = "postgres"
-    MYSQL = "mysql"
-    URL = "url"
-    S3 = "s3"
-    MONGODB = "mongodb"
-    ELASTICSEARCH = "elasticsearch"
-    SNOWFLAKE = "snowflake"
-    BIGQUERY = "bigquery"
-    SQLSERVER = "sqlserver"
-    COSMODB = "cosmodb"
 
 
 class ResourceSSHTunnel:
@@ -171,7 +146,9 @@ class Resources:
 
     @api_response(ResourcesResponse)
     async def get(self, name_or_id: str):
-        async with self._session.get(RESOURCE_BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.get(
+            RESOURCE_BASE_PATH + "/{}".format(name_or_id)
+        ) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
@@ -180,7 +157,9 @@ class Resources:
             return await resp.text()
 
     async def delete(self, name_or_id: str):
-        async with self._session.delete(RESOURCE_BASE_PATH + "/{}".format(name_or_id)) as resp:
+        async with self._session.delete(
+            RESOURCE_BASE_PATH + "/{}".format(name_or_id)
+        ) as resp:
             return await resp.text()
 
     @api_response(ResourcesResponse)
@@ -196,7 +175,7 @@ class Resources:
         self, name_or_id: str, update_resource_parameters: UpdateResourceParams
     ):
         async with self._session.post(
-                RESOURCE_BASE_PATH + "/{}".format(name_or_id),
+            RESOURCE_BASE_PATH + "/{}".format(name_or_id),
             json=json.dumps(update_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             res = await resp.text()
