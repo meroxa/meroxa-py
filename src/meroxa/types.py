@@ -1,3 +1,19 @@
+from enum import Enum
+
+
+class ResourceType(Enum):
+    POSTGRES = "postgres"
+    MYSQL = "mysql"
+    URL = "url"
+    S3 = "s3"
+    MONGODB = "mongodb"
+    ELASTICSEARCH = "elasticsearch"
+    SNOWFLAKE = "snowflakedb"
+    BIGQUERY = "bigquery"
+    SQLSERVER = "sqlserver"
+    COSMODB = "cosmodb"
+
+
 class MeroxaApiResponse(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -26,11 +42,3 @@ class EntityIdentifier:
 
     def repr_json(self):
         return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
-
-
-class ResourceMetadata:
-    def __init__(self, metadata: dict):
-        self.metadata = metadata
-
-    def repr_json(self):
-        return self.metadata

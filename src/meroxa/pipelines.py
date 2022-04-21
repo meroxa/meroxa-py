@@ -1,5 +1,4 @@
 import json
-from typing import Any
 
 from .types import MeroxaApiResponse, EnvironmentIdentifier
 from .utils import ComplexEncoder, api_response
@@ -18,7 +17,7 @@ class PipelineResponse(MeroxaApiResponse):
         created_at: str,
         updated_at: str,
         environment: EnvironmentIdentifier = None,
-        metadata: dict[str, Any] = None,
+        metadata: dict[str, str] = None,
         **kwargs
     ) -> None:
         self.created_at = created_at
@@ -37,7 +36,7 @@ class CreatePipelineParams:
     def __init__(
         self,
         name: str,
-        metadata: dict[str, Any] = None,
+        metadata: dict[str, str] = None,
         environment: EnvironmentIdentifier = None,
     ) -> None:
         self._name = name
@@ -51,7 +50,7 @@ class CreatePipelineParams:
 
 
 class UpdatePipelineParams:
-    def __init__(self, name: str, metadata: dict[str, Any] = None) -> None:
+    def __init__(self, name: str, metadata: dict[str, str] = None) -> None:
         self._name = name
         self._metadata = metadata
 

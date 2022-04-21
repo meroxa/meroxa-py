@@ -12,9 +12,7 @@ from .resources import (
 )
 from .resources import Resources
 from .resources import ResourcesResponse
-from .types import ClientOptions
-from .types import EnvironmentIdentifier
-from .types import ResourceMetadata
+from .types import ClientOptions, EnvironmentIdentifier, ResourceType
 from .users import UserResponse
 from .users import Users
 from .utils import ComplexEncoder
@@ -34,7 +32,6 @@ __all__ = [
     "CreatePipelineParams",
     "EnvironmentIdentifier",
     "ResourceCredentials",
-    "ResourceMetadata",
     "ResourceSSHTunnel",
     "UpdateConnectorParams",
     "UpdateResourceParams",
@@ -43,4 +40,5 @@ __all__ = [
     "Users",
     "ComplexEncoder",
     "ErrorResponse",
+    "ResourceType",
 ]

@@ -28,14 +28,6 @@ def parse_error_message(error):
 
 
 def api_response(return_type: type[MeroxaApiResponse]):
-    """Meroxa API Response function decorator
-    Takes the response from a function that returns a
-    `aiohttp.ClientResponse.text()` and parses the response
-    into a `MeroxaApi` object. Returns an ErrorResponse if the
-    message cannot be parsed
-    :param return_type object of type MeroxaApiResponse
-    :rtype: (ErrorResponse, MeroxaApiResponse)
-    """
     def inner(func):
         async def wrapper(*args, **kwargs):
             res = await func(*args, **kwargs)
