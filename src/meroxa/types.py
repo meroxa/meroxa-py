@@ -4,6 +4,7 @@ from enum import Enum
 class ResourceType(Enum):
     POSTGRES = "postgres"
     MYSQL = "mysql"
+    REDSHIFT = "redshift"
     URL = "url"
     S3 = "s3"
     MONGODB = "mongodb"
