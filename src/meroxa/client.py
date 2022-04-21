@@ -11,9 +11,6 @@ from .users import Users
 class Meroxa:
     """Asynchronous Meroxa API handler"""
 
-    # Default Meroxa API route
-    meroxa_api = MEROXA_API_ROUTE
-
     def __init__(
         self, auth, api_route=MEROXA_API_ROUTE, timeout=MEROXA_TIMEOUT, session=None
     ):
