@@ -24,6 +24,7 @@ class UserResponse(MeroxaApiResponse):
         self.last_login = last_login
         self.features = features
         self.username = username
+        super().__init__()
 
 
 class Users:

@@ -1,12 +1,11 @@
 import aiohttp
 
+from .connectors import Connectors
+from .constants import MEROXA_API_ROUTE, MEROXA_TIMEOUT
+from .functions import Functions
+from .pipelines import Pipelines
 from .resources import Resources
 from .users import Users
-from .pipelines import Pipelines
-from .functions import Functions
-from .connectors import Connectors
-
-from .constants import MEROXA_API_ROUTE, MEROXA_TIMEOUT
 
 
 class Meroxa:

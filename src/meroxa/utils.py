@@ -1,12 +1,13 @@
 import json
+from json import JSONDecodeError
 
 from .types import MeroxaApiResponse
 
 
 class ComplexEncoder(json.JSONEncoder):
     def default(self, obj):
-        if hasattr(obj, "reprJSON"):
-            return obj.reprJSON()
+        if hasattr(obj, "repr_json"):
+            return obj.repr_json()
         else:
             return json.JSONEncoder.default(self, obj)
 
@@ -18,37 +19,26 @@ class ErrorResponse(object):
         self.details = details
 
 
-def parseErrorMessage(error):
+def parse_error_message(error):
     try:
         return ErrorResponse(**json.loads(error))
-    except BaseException:
+    except JSONDecodeError or TypeError:
         split = error.split("\n", 1)
         return ErrorResponse("Error", split[0])
 
 
-def api_response(return_type: MeroxaApiResponse):
-    """Meroxa API Response function decorator
-
-    Takes the response from a function that returns a
-    `aiohttp.ClientResponse.text()` and parses the response
-    into a `MeroxaApi` object. Returns an ErrorResponse if the
-    message cannot be parsed
-
-    :param return_type object of type MeroxaApiResponse
-    :rtype: (ErrorResponse, MeroxaApiResponse)
-    """
-
-    def mid(func):
+def api_response(return_type: type[MeroxaApiResponse]):
+    def inner(func):
         async def wrapper(*args, **kwargs):
             res = await func(*args, **kwargs)
             try:
                 parsed = json.loads(res)
                 if isinstance(parsed, list):
-                    return (None, [return_type(**par) for par in parsed])
-                return (None, return_type(**json.loads(res)))
-            except BaseException:
-                return (parseErrorMessage(res), None)
+                    return None, [return_type(**par) for par in parsed]
+                return None, return_type(**json.loads(res))
+            except JSONDecodeError or TypeError:
+                return parse_error_message(res), None
 
         return wrapper
 
-    return mid
+    return inner
