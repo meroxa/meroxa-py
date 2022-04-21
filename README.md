@@ -1,3 +1,4 @@
+
 # Meroxa-py
 
 ## Installing
@@ -17,10 +18,9 @@ from meroxa import Meroxa
 from pprint import pprint
 
 auth="auth.token", 
-url="https://api.staging.meroxa.io"
 
 async def main():
-    async with Meroxa(auth=auth, api_route=url) as m:
+    async with Meroxa(auth=auth) as m:
         resp = await m.users.me()
         pprint(resp)
 
