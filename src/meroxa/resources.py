@@ -1,10 +1,8 @@
 import json
-
-from enum import Enum
-from .types import MeroxaApiResponse, EnvironmentIdentifier, ResourceType
-from .utils import ComplexEncoder, api_response
-
 from typing import Any
+
+from .types import MeroxaApiResponse, EnvironmentIdentifier
+from .utils import ComplexEncoder, api_response
 
 RESOURCE_BASE_PATH = "/v1/resources"
 
@@ -88,7 +86,7 @@ class CreateResourceParams:
     def __init__(
         self,
         url: str,
-        type: ResourceType,
+        type: str,
         name: str = None,
         metadata: dict[str, str] = None,
         credentials: ResourceCredentials = None,

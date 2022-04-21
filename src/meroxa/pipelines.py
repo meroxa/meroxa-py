@@ -4,7 +4,6 @@ from typing import Any
 from .types import MeroxaApiResponse, EnvironmentIdentifier
 from .utils import ComplexEncoder, api_response
 
-
 PIPELINE_BASE_PATH = "/v1/pipelines"
 
 

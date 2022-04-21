@@ -1,20 +1,10 @@
 import json
-from enum import Enum
 from typing import Any
 
-from .types import MeroxaApiResponse, ConnectorType, EntityIdentifier
+from .types import MeroxaApiResponse, EntityIdentifier
 from .utils import ComplexEncoder, api_response
 
 CONNECTORS_BASE_PATH = "/v1/connectors"
-
-
-class ConnectorState(Enum):
-    PENDING = "pending"
-    RUNNING = "running"
-    PAUSED = "paused"
-    CRASHED = "crashed"
-    FAILED = "failed"
-    DOA = "doa"
 
 
 class ConnectorsResponse(MeroxaApiResponse):
@@ -30,8 +20,8 @@ class ConnectorsResponse(MeroxaApiResponse):
         resource_id: str,
         pipeline_id: str,
         streams: dict[str, str],
-        state: ConnectorState,
-        type: ConnectorType,
+        state: str,
+        type: str,
         updated_at: str,
         uuid: str,
         trace: str = None,
@@ -64,7 +54,7 @@ class CreateConnectorParams:
         name: str = None,
         config: dict[str, str] = None,
         metadata: dict[str, str] = None,
-        connector_type: ConnectorType = None,
+        connector_type: str = None,
         input: str = None,
     ) -> None:
         self._resource_name = resource_name

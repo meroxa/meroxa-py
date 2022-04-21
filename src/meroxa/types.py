@@ -1,7 +1,3 @@
-from ast import Str
-from enum import Enum
-
-
 class MeroxaApiResponse(object):
     def __init__(self, *args, **kwargs):
         ...
@@ -38,21 +34,3 @@ class ResourceMetadata:
 
     def repr_json(self):
         return self.metadata
-
-
-class ResourceType(Enum):
-    POSTGRES = "postgres"
-    MYSQL = "mysql"
-    URL = "url"
-    S3 = "s3"
-    MONGODB = "mongodb"
-    ELASTICSEARCH = "elasticsearch"
-    SNOWFLAKE = "snowflake"
-    BIGQUERY = "bigquery"
-    SQLSERVER = "sqlserver"
-    COSMODB = "cosmodb"
-
-
-class ConnectorType(Enum):
-    SOURCE = "source"
-    DESTINATION = "Destination"
