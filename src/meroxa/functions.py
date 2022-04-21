@@ -52,7 +52,7 @@ class PipelineIdentifiers:
         return self._uuid
 
     @uuid.setter
-    def name(self, value):
+    def uuid(self, value):
         self._name = None
         self._uuid = value
 
