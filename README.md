@@ -17,7 +17,7 @@ from meroxa import Meroxa
 from pprint import pprint
 
 auth="auth.token", 
-url="https://api.staging.meroxa.io"
+url="https://api.meroxa.io"
 
 async def main():
     async with Meroxa(auth=auth, api_route=url) as m:
