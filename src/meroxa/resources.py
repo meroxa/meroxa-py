@@ -11,12 +11,10 @@ class Status(object):
     def __init__(
         self,
         state: str,
-        last_updated_at: str,
         details: str = None,
     ) -> None:
         self.state = state
         self.details = details
-        self.last_updated_at = last_updated_at
 
 
 class ResourcesResponse(MeroxaApiResponse):
