@@ -1,5 +1,6 @@
 import json
 
+from .pipelines import PipelineIdentifiers
 from .types import MeroxaApiResponse
 from .utils import ComplexEncoder, api_response
 
@@ -31,33 +32,6 @@ class FunctionResponse(MeroxaApiResponse):
         self.status = status
         self.pipline = pipeline
         super().__init__()
-
-
-class PipelineIdentifiers:
-    def __init__(self) -> None:
-        self._name = None
-        self._uuid = None
-
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value):
-        self._uuid = None
-        self._name = value
-
-    @property
-    def uuid(self):
-        return self._uuid
-
-    @uuid.setter
-    def uuid(self, value):
-        self._name = None
-        self._uuid = value
-
-    def repr_json(self):
-        return dict(name=self._name, uuid=self._uuid)
 
 
 class CreateFunctionParams:

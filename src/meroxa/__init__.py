@@ -1,22 +1,24 @@
 from .client import Meroxa
-from .connectors import ConnectorsResponse
-from .connectors import CreateConnectorParams, UpdateConnectorParams
-from .functions import CreateFunctionParams
-from .functions import FunctionResponse
-from .pipelines import CreatePipelineParams, UpdatePipelineParams, PipelineResponse
+from .connectors import ConnectorsResponse, CreateConnectorParams, UpdateConnectorParams
+from .functions import CreateFunctionParams, FunctionResponse
+from .pipelines import (
+    CreatePipelineParams,
+    UpdatePipelineParams,
+    PipelineResponse,
+    PipelineIdentifiers,
+)
 from .resources import (
     CreateResourceParams,
     UpdateResourceParams,
     ResourceCredentials,
     ResourceSSHTunnel,
+    Resources,
+    ResourcesResponse,
 )
-from .resources import Resources
-from .resources import ResourcesResponse
+
 from .types import ClientOptions, EnvironmentIdentifier, ResourceType
-from .users import UserResponse
-from .users import Users
-from .utils import ComplexEncoder
-from .utils import ErrorResponse
+from .users import UserResponse, Users
+from .utils import ComplexEncoder, ErrorResponse
 
 __all__ = [
     "Meroxa",
@@ -41,4 +43,5 @@ __all__ = [
     "ComplexEncoder",
     "ErrorResponse",
     "ResourceType",
+    "PipelineIdentifiers",
 ]
