@@ -12,9 +12,11 @@ class Status(object):
         self,
         state: str,
         details: str = None,
+        last_updated_at: str = None,
     ) -> None:
         self.state = state
         self.details = details
+        self.last_updated_at = last_updated_at
 
 
 class ResourcesResponse(MeroxaApiResponse):
