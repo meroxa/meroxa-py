@@ -59,9 +59,10 @@ class UpdatePipelineParams:
 
 
 class PipelineIdentifiers:
-    def __init__(self) -> None:
-        self._name = None
-        self._uuid = None
+
+    def __init__(self, name=None, uuid=None):
+        self._name = name
+        self._uuid = uuid
 
     @property
     def name(self):
@@ -69,7 +70,8 @@ class PipelineIdentifiers:
 
     @name.setter
     def name(self, value):
-        self._uuid = None
+        if self._uuid:
+            self._uuid = None
         self._name = value
 
     @property
@@ -78,7 +80,8 @@ class PipelineIdentifiers:
 
     @uuid.setter
     def uuid(self, value):
-        self._name = None
+        if self._name:
+            self._name = None
         self._uuid = value
 
     def repr_json(self):
