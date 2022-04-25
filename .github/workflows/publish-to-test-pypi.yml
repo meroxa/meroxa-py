@@ -1,8 +1,8 @@
-name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+name: Publish Meroxa-py distributions 📦 to PyPI and TestPyPI
 on: push
 jobs:
-  build-n-publish:
-    name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+  build-and-publish:
+    name: Build and publish Meroxa-py distributions to PyPI and TestPyPI
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
