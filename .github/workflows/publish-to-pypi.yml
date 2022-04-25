@@ -1,8 +1,11 @@
-name: Publish Meroxa-py distributions 📦 to TestPyPI
-on: push
+name: Publish Meroxa-py distributions 📦 to PyPI and TestPyPI
+on:
+  release:
+    branches:
+      - main
 jobs:
   build-and-publish:
-    name: Build and publish Meroxa-py distributions to TestPyPI
+    name: Build and publish Meroxa-py distributions to PyPI
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
@@ -24,9 +27,8 @@ jobs:
           --wheel
           --outdir dist/
           .
-      - name: Publish distribution 📦 to Test PyPI
+      - name: Publish distribution 📦 to PyPI
+        if: startsWith(github.ref, 'refs/tags')
         uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
-          skip_existing: true # Tolerate release package duplicates ONLY ON THE TEST INDEX
+          password: ${{ secrets.PYPI_API_TOKEN }}
