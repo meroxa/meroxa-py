@@ -17,7 +17,7 @@ import asyncio
 from meroxa import Meroxa
 from pprint import pprint
 
-auth="auth.token", 
+auth="auth.token",
 
 async def main():
     async with Meroxa(auth=auth) as m:

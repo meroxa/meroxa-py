@@ -1,7 +1,9 @@
 import json
 
-from .types import MeroxaApiResponse, EnvironmentIdentifier
-from .utils import ComplexEncoder, api_response
+from .types import EnvironmentIdentifier
+from .types import MeroxaApiResponse
+from .utils import api_response
+from .utils import ComplexEncoder
 
 PIPELINE_BASE_PATH = "/v1/pipelines"
 
@@ -59,7 +61,6 @@ class UpdatePipelineParams:
 
 
 class PipelineIdentifiers:
-
     def __init__(self, name=None, uuid=None):
         self._name = name
         self._uuid = uuid

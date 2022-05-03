@@ -1,7 +1,8 @@
 import aiohttp
 
 from .connectors import Connectors
-from .constants import MEROXA_API_ROUTE, MEROXA_TIMEOUT
+from .constants import MEROXA_API_ROUTE
+from .constants import MEROXA_TIMEOUT
 from .functions import Functions
 from .pipelines import Pipelines
 from .resources import Resources

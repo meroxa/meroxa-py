@@ -1,8 +1,10 @@
 import json
 from typing import Any
 
-from .types import MeroxaApiResponse, EnvironmentIdentifier
-from .utils import ComplexEncoder, api_response
+from .types import EnvironmentIdentifier
+from .types import MeroxaApiResponse
+from .utils import api_response
+from .utils import ComplexEncoder
 
 RESOURCE_BASE_PATH = "/v1/resources"
 
