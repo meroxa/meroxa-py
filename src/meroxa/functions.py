@@ -2,7 +2,8 @@ import json
 
 from .pipelines import PipelineIdentifiers
 from .types import MeroxaApiResponse
-from .utils import ComplexEncoder, api_response
+from .utils import api_response
+from .utils import ComplexEncoder
 
 FUNCTIONS_BASE_PATH = "/v1/functions"
 

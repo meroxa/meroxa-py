@@ -1,8 +1,10 @@
 import json
 from typing import Any
 
-from .types import MeroxaApiResponse, EntityIdentifier
-from .utils import ComplexEncoder, api_response
+from .types import EntityIdentifier
+from .types import MeroxaApiResponse
+from .utils import api_response
+from .utils import ComplexEncoder
 
 CONNECTORS_BASE_PATH = "/v1/connectors"
 
