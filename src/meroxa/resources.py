@@ -110,7 +110,7 @@ class CreateResourceParams:
             credentials=self._credentials,
             environment=self._environment,
             metadata=self._metadata,
-            type=self._type.value,
+            type=self._type,
             ssh_tunnel=self._ssh_tunnel,
         )
 
