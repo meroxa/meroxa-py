@@ -17,7 +17,7 @@ class Meroxa:
     ):
         """Create a session if one is not provided."""
 
-        if api_route == None:
+        if api_route is None:
             api_route = MEROXA_API_ROUTE
         if session is None:
             session = aiohttp.ClientSession(
