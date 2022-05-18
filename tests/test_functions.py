@@ -2,6 +2,8 @@ import json
 from unittest.mock import AsyncMock
 from unittest.mock import patch
 
+import pytest
+
 from meroxa import CreateFunctionParams
 from meroxa import FunctionResponse
 from meroxa import Functions
@@ -33,6 +35,7 @@ def assert_function_equality(response, comparison):
     assert response.pipeline == comparison.get("pipeline")
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_functions_get_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -49,6 +52,7 @@ async def test_functions_get_success(mock_session):
     assert_function_equality(functions_response, FUNCTION_JSON)
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_functions_get_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -66,6 +70,7 @@ async def test_functions_get_error(mock_session):
     assert ERROR_MESSAGE.items() <= error.__dict__.items()
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_list_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -86,6 +91,7 @@ async def test_resources_list_success(mock_session):
     assert_function_equality(resource_response[1], FUNCTION_JSON)
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_list_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -103,6 +109,7 @@ async def test_resources_list_error(mock_session):
     assert ERROR_MESSAGE.items() <= error.__dict__.items()
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_delete_success(mock_session):
     mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
@@ -115,6 +122,7 @@ async def test_resources_delete_success(mock_session):
     assert mock_session.delete.call_count == 1
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_create_success(mock_session):
     mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(

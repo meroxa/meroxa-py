@@ -2,6 +2,8 @@ import json
 from unittest.mock import AsyncMock
 from unittest.mock import patch
 
+import pytest
+
 from meroxa import Connectors
 from meroxa import ConnectorsResponse
 from meroxa import CreateConnectorParams
@@ -33,6 +35,7 @@ def assert_connector_equality(response, comparison):
     assert response.config == comparison.get("config")
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connector_get_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -49,6 +52,7 @@ async def test_connector_get_success(mock_session):
     assert_connector_equality(connectors_response, CONNECTOR_JSON)
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connectors_get_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -62,10 +66,10 @@ async def test_connectors_get_error(mock_session):
     assert mock_session.get.call_count == 1
     assert connectors_response is None
 
-    # TODO: Better comparison logic
     assert ERROR_MESSAGE.items() <= error.__dict__.items()
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connectors_list_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -86,6 +90,7 @@ async def test_connectors_list_success(mock_session):
     assert_connector_equality(resource_response[1], CONNECTOR_JSON)
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connection_list_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -103,6 +108,7 @@ async def test_connection_list_error(mock_session):
     assert ERROR_MESSAGE.items() <= error.__dict__.items()
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_delete_success(mock_session):
     mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
@@ -115,6 +121,7 @@ async def test_resources_delete_success(mock_session):
     assert mock_session.delete.call_count == 1
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_create_success(mock_session):
     mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(

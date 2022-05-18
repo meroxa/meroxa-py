@@ -2,6 +2,8 @@ import json
 from unittest.mock import AsyncMock
 from unittest.mock import patch
 
+import pytest
+
 from meroxa.users import Users
 
 USER_RESPONSE_JSON = {
@@ -19,6 +21,7 @@ USER_RESPONSE_JSON = {
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find user"}
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_user_me_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
@@ -33,6 +36,7 @@ async def test_user_me_success(mock_session):
     assert user_response.__dict__ == USER_RESPONSE_JSON
 
 
+@pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_user_me_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
