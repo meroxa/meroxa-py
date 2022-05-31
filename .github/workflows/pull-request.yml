@@ -17,7 +17,7 @@ jobs:
           python-version: '3.7'
           cache: 'pip'
       - name: Install Dependencies
-        run: pip install -r requirments-dev.txt
+        run: pip install -r requirements-dev.txt
       - name: Test
         run:
           make test
