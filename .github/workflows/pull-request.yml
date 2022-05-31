@@ -1,4 +1,4 @@
-name: Build and Tests
+name: Testing and Linting
 
 # Run this workflow every time a new PR wants to merge to master/main
 on:
@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-python@v3
         with:
           python-version: '3.7'
+          cache: 'pip'
+      - name: Install Dependencies
+        run: pip install -r requirments-dev.txt
       - name: Test
         run:
           make test
