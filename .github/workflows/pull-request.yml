@@ -1,23 +1,17 @@
-name: Testing and Linting
+name: Run Unit Tests
 
 # Run this workflow every time a new PR wants to merge to master/main
-on:
-  pull_request:
-    paths-ignore:
-      - 'docs/**'
+on: pull_request
 
 jobs:
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.7', '3.8', '3.9']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v3
         with:
-            python-version: ${{ matrix.python-version }}
+            python-version: '3.9'
             cache: 'pip'
       - name: Install Dependencies
         run: pip install -r requirements-dev.txt
