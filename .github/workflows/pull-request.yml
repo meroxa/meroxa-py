@@ -10,12 +10,15 @@ jobs:
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.7', '3.8', '3.9']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.7'
-          cache: 'pip'
+            python-version: ${{ matrix.python-version }}
+            cache: 'pip'
       - name: Install Dependencies
         run: pip install -r requirements-dev.txt
       - name: Test
