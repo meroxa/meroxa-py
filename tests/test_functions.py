@@ -147,20 +147,3 @@ async def test_resources_create_success(mock_session):
     assert error is None
     assert isinstance(create_response, FunctionResponse)
     assert_function_equality(create_response, FUNCTION_JSON)
-
-
-# # @patch("aiohttp.ClientSession")
-# # async def test_resources_list_error(mock_session):
-# #     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-# #         return_value=json.dumps(ERROR_MESSAGE)
-# #     )
-# #
-# #     mock_session.get.return_value.__aenter__.return_value.status = 200
-# #
-# #     error, resource_response = await Resources(mock_session).list()
-# #
-# #     assert mock_session.get.call_count == 1
-# #     assert resource_response is None
-# #
-# #     # TODO: Better comparison logic
-# #     assert ERROR_MESSAGE.items() <= error.__dict__.items()
