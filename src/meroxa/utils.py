@@ -1,5 +1,6 @@
 import json
 from json import JSONDecodeError
+from typing import Type
 
 from .types import MeroxaApiResponse
 
@@ -27,7 +28,7 @@ def parse_error_message(error):
         return ErrorResponse("Error", split[0])
 
 
-def api_response(return_type: type[MeroxaApiResponse]):
+def api_response(return_type: Type[MeroxaApiResponse]):
     def inner(func):
         async def wrapper(*args, **kwargs):
             res = await func(*args, **kwargs)

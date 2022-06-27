@@ -58,3 +58,10 @@ Include the following in your patch:
     ```bash
   $ pre-commit install
   ```
+
+### Running the tests
+Run the test suite with pytest.
+
+```bash
+$ pytest
+```

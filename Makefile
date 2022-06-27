@@ -5,3 +5,6 @@ install: requirements.txt
 
 dev: requirements-dev.txt
 	pip install -r requirements-dev.txt
+
+test:
+	tox

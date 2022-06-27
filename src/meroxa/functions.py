@@ -31,7 +31,7 @@ class FunctionResponse(MeroxaApiResponse):
         self.args = args
         self.env_vars = env_vars
         self.status = status
-        self.pipline = pipeline
+        self.pipeline = pipeline
         super().__init__()
 
 

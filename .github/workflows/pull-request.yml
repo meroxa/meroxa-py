@@ -1,0 +1,20 @@
+name: Run Unit Tests
+
+# Run this workflow every time a new PR wants to merge to master/main
+on: pull_request
+
+jobs:
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v3
+        with:
+            python-version: '3.9'
+            cache: 'pip'
+      - name: Install Dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Test
+        run:
+          make test
