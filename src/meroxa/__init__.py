@@ -1,3 +1,5 @@
+from .applications import ApplicationResponse
+from .applications import CreateApplicationParams
 from .client import Meroxa
 from .connectors import Connectors
 from .connectors import ConnectorsResponse
@@ -25,10 +27,12 @@ from .utils import ComplexEncoder
 from .utils import ErrorResponse
 
 __all__ = [
+    "ApplicationResponse",
     "ClientOptions",
     "ComplexEncoder",
     "Connectors",
     "ConnectorsResponse",
+    "CreateApplicationParams",
     "CreateConnectorParams",
     "CreateFunctionParams",
     "CreatePipelineParams",

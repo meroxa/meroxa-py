@@ -1,8 +1,8 @@
 import json
 
 from .pipelines import PipelineIdentifiers
-from .types import MeroxaApiResponse
 from .types import EntityIdentifier
+from .types import MeroxaApiResponse
 from .utils import api_response
 from .utils import ComplexEncoder
 
@@ -82,6 +82,8 @@ class Applications:
     async def create(self, create_application_parameters: CreateApplicationParams):
         async with self._session.post(
             APPLICATIONS_BASE_PATH,
-            data=json.dumps(create_application_parameters.repr_json(), cls=ComplexEncoder),
+            data=json.dumps(
+                create_application_parameters.repr_json(), cls=ComplexEncoder
+            ),
         ) as resp:
             return await resp.text()
