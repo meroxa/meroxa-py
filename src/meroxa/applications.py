@@ -18,16 +18,21 @@ class ApplicationResponse(MeroxaApiResponse):
         git_sha: str,
         status: dict,
         pipeline: dict,
-        connectors: list[EntityIdentifier],
-        functions: list[EntityIdentifier],
-        resources: list[EntityIdentifier],
+        created_at: str,
+        updated_at: str,
+        connectors: list[EntityIdentifier] = None,
+        functions: list[EntityIdentifier] = None,
+        resources: list[EntityIdentifier] = None,
     ) -> None:
         self.uuid = uuid
         self.name = name
         self.language = language
         self.git_sha = git_sha
         self.status = status
-        self.pipline = pipeline
+        self.pipeline = pipeline
+        self.created_at = created_at
+        self.updated_at = updated_at
+        self.connectors = connectors
         self.connectors = connectors
         self.functions = functions
         self.resources = resources
