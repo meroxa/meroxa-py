@@ -33,7 +33,6 @@ class ApplicationResponse(MeroxaApiResponse):
         self.created_at = created_at
         self.updated_at = updated_at
         self.connectors = connectors
-        self.connectors = connectors
         self.functions = functions
         self.resources = resources
         super().__init__()
