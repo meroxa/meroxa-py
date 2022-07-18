@@ -1,5 +1,6 @@
 import aiohttp
 
+from .applications import Applications
 from .connectors import Connectors
 from .constants import MEROXA_API_ROUTE
 from .constants import MEROXA_TIMEOUT
@@ -29,6 +30,7 @@ class Meroxa:
         self._session = session
 
         # Meroxa API Handlers
+        self.applications = Applications(self._session)
         self.connectors = Connectors(self._session)
         self.functions = Functions(self._session)
         self.pipelines = Pipelines(self._session)

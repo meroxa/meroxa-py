@@ -121,10 +121,10 @@ class Pipelines:
 
     @api_response(PipelineResponse)
     async def update(
-        self, pipline_name_or_id: str, update_pipeline_parameters: UpdatePipelineParams
+        self, pipeline_name_or_id: str, update_pipeline_parameters: UpdatePipelineParams
     ):
         async with self._session.post(
-            PIPELINE_BASE_PATH + "/{}".format(pipline_name_or_id),
+            PIPELINE_BASE_PATH + "/{}".format(pipeline_name_or_id),
             json=json.dumps(update_pipeline_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             return await resp.text()

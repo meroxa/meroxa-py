@@ -26,7 +26,6 @@ ERROR_MESSAGE = {"code": "not_found", "message": "could not find function"}
 
 
 def assert_function_equality(response, comparison):
-    print(response.__dict__)
     assert response.input_stream == comparison.get("input_stream")
     assert response.command == comparison.get("command")
     assert response.args == comparison.get("args")
@@ -72,7 +71,7 @@ async def test_functions_get_error(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_list_success(mock_session):
+async def test_functions_list_success(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
         side_effect=[json.dumps([FUNCTION_JSON, FUNCTION_JSON])]
     )
@@ -93,7 +92,7 @@ async def test_resources_list_success(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_list_error(mock_session):
+async def test_functions_list_error(mock_session):
     mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
         return_value=json.dumps(ERROR_MESSAGE)
     )
@@ -111,7 +110,7 @@ async def test_resources_list_error(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_delete_success(mock_session):
+async def test_functions_delete_success(mock_session):
     mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
         side_effect=None
     )
@@ -124,7 +123,7 @@ async def test_resources_delete_success(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_create_success(mock_session):
+async def test_functions_create_success(mock_session):
     mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(
         return_value=json.dumps(FUNCTION_JSON)
     )

@@ -29,7 +29,6 @@ ERROR_MESSAGE = {"code": "not_found", "message": "could not find function"}
 
 
 def assert_connector_equality(response, comparison):
-    print(response.__dict__)
     assert response.resource_name == comparison.get("resource_name")
     assert response.pipeline_name == comparison.get("pipeline_name")
     assert response.config == comparison.get("config")
@@ -110,7 +109,7 @@ async def test_connection_list_error(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_delete_success(mock_session):
+async def test_connectors_delete_success(mock_session):
     mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
         side_effect=None
     )
@@ -123,7 +122,7 @@ async def test_resources_delete_success(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_create_success(mock_session):
+async def test_connectors_create_success(mock_session):
     mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(
         return_value=json.dumps(CONNECTOR_JSON)
     )
