@@ -2,6 +2,7 @@ import json
 
 from .pipelines import PipelineIdentifiers
 from .types import EntityIdentifier
+from .types import ApplicationResource
 from .types import MeroxaApiResponse
 from .utils import api_response
 from .utils import ComplexEncoder
@@ -20,9 +21,9 @@ class ApplicationResponse(MeroxaApiResponse):
         pipeline: dict,
         created_at: str,
         updated_at: str,
-        connectors: list[EntityIdentifier] = None,
-        functions: list[EntityIdentifier] = None,
-        resources: list[EntityIdentifier] = None,
+        connectors: list[EntityIdentifier],
+        functions: list[EntityIdentifier],
+        resources: list[ApplicationResource],
     ) -> None:
         self.uuid = uuid
         self.name = name
@@ -66,6 +67,7 @@ class Applications:
 
     @api_response(ApplicationResponse)
     async def get(self, name_or_uuid: str):
+        
         async with self._session.get(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
@@ -73,6 +75,7 @@ class Applications:
 
     @api_response(ApplicationResponse)
     async def list(self):
+        
         async with self._session.get(APPLICATIONS_BASE_PATH) as resp:
             return await resp.text()
 
