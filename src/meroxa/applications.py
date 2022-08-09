@@ -21,9 +21,9 @@ class ApplicationResponse(MeroxaApiResponse):
         pipeline: dict,
         created_at: str,
         updated_at: str,
-        connectors: list[EntityIdentifier],
-        functions: list[EntityIdentifier],
-        resources: list[ApplicationResource],
+        connectors: list[EntityIdentifier] = None,
+        functions: list[EntityIdentifier] = None,
+        resources: list[ApplicationResource] = None,
     ) -> None:
         self.uuid = uuid
         self.name = name
