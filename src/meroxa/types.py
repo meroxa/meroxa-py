@@ -1,5 +1,7 @@
+from dataclasses import dataclass
 from enum import Enum
 
+from typing import Any
 
 class ResourceType(Enum):
     POSTGRES = "postgres"
@@ -35,6 +37,20 @@ class EnvironmentIdentifier:
     def repr_json(self):
         return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
 
+
+class ResourceCollection:
+    def __init__(self,name=None, destination=None, source=None):
+        
+        self.name = name
+        self.source = source
+        self.destination = destination
+
+class ApplicationResource:
+    def __init__(self, name=None, uuid=None, collection: Any = None):
+        
+        self.name = name
+        self.uuid = uuid
+        self.collection = ResourceCollection(**collection)
 
 class EntityIdentifier:
     def __init__(self, name=None, uuid=None):
