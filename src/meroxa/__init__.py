@@ -19,7 +19,6 @@ from .resources import Resources
 from .resources import ResourcesResponse
 from .resources import ResourceSSHTunnel
 from .resources import UpdateResourceParams
-from .types import ClientOptions
 from .types import EnvironmentIdentifier
 from .types import ResourceType
 from .users import UserResponse
@@ -30,7 +29,6 @@ from .utils import ErrorResponse
 __all__ = [
     "Applications",
     "ApplicationResponse",
-    "ClientOptions",
     "ComplexEncoder",
     "Connectors",
     "ConnectorsResponse",
