@@ -16,11 +16,11 @@ class ApplicationResponse(MeroxaApiResponse):
         uuid: str,
         name: str,
         language: str,
-        git_sha: str,
         status: dict,
         pipeline: dict,
         created_at: str,
         updated_at: str,
+        git_sha: str = None,
         connectors: list[EntityIdentifier] = None,
         functions: list[EntityIdentifier] = None,
         resources: list[ApplicationResource] = None,
@@ -28,11 +28,11 @@ class ApplicationResponse(MeroxaApiResponse):
         self.uuid = uuid
         self.name = name
         self.language = language
-        self.git_sha = git_sha
         self.status = status
         self.pipeline = pipeline
         self.created_at = created_at
         self.updated_at = updated_at
+        self.git_sha = git_sha
         self.connectors = connectors
         self.functions = functions
         self.resources = resources
