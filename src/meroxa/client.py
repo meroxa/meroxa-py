@@ -26,12 +26,16 @@ class Meroxa:
         if api_route is None:
             api_route = MEROXA_API_ROUTE
         if session is None:
+            headers = {
+                "Authorization": "Bearer {}".format(auth),
+            }
+
+            if meroxa_account_uuid:
+                headers.update({"Meroxa-Account-UUID": meroxa_account_uuid})
+
             session = aiohttp.ClientSession(
                 base_url=api_route,
-                headers={
-                    "Authorization": "Bearer {}".format(auth),
-                    "Meroxa-Account-UUID": meroxa_account_uuid,
-                },
+                headers=headers,
                 timeout=aiohttp.ClientTimeout(timeout),
             )
 
