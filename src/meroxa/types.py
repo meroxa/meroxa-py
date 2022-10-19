@@ -23,13 +23,6 @@ class MeroxaApiResponse(object):
         ...
 
 
-class ClientOptions:
-    def __init__(self, auth: str, url: str, timeout=0.0):
-        self.auth = auth
-        self.timeout = timeout
-        self.url = url
-
-
 class EnvironmentIdentifier:
     def __init__(self, name=None, uuid=None):
         self.name = name

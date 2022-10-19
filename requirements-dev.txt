@@ -1,6 +1,6 @@
 -r ./requirements.txt
 
-pre-commit
+pre-commit==2.20.0
 
 # unit testing reqs
 pytest==7.1.2
