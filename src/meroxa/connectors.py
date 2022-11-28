@@ -26,6 +26,7 @@ class ConnectorsResponse(MeroxaApiResponse):
         type: str,
         updated_at: str,
         uuid: str,
+        collection: str,
         trace: str = None,
         environment: EntityIdentifier = None,
     ) -> None:
@@ -43,6 +44,7 @@ class ConnectorsResponse(MeroxaApiResponse):
         self.type = type
         self.updated_at = updated_at
         self.uuid = uuid
+        self.collection = collection
         self.trace = trace
         self.environment = environment
         super().__init__()
