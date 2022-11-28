@@ -23,6 +23,7 @@ CONNECTOR_JSON = {
     "metadata": {"mx:connectorType": "source"},
     "created_at": "2022-04-20T22:20:38Z",
     "updated_at": "2022-04-20T22:20:38Z",
+    "collection": "example_collection",
 }
 
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find function"}
