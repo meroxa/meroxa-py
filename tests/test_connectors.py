@@ -16,6 +16,7 @@ CONNECTOR_JSON = {
     "config": {},
     "state": "pending",
     "resource_id": 15184,
+    "resource_uuid": "80b59b23-2256-46f4-9d71-aa994972b4c2",
     "pipeline_id": 8826,
     "pipeline_name": "pAfpKLolrz",
     "resource_name": "testin",

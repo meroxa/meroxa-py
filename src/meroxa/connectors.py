@@ -20,6 +20,7 @@ class ConnectorsResponse(MeroxaApiResponse):
         resource_name: str,
         pipeline_name: str,
         resource_id: str,
+        resource_uuid: str,
         pipeline_id: str,
         streams: dict[str, str],
         state: str,
@@ -38,6 +39,7 @@ class ConnectorsResponse(MeroxaApiResponse):
         self.resource_name = resource_name
         self.pipeline_name = pipeline_name
         self.resource_id = resource_id
+        self.resource_uuid = resource_id
         self.pipeline_id = pipeline_id
         self.streams = streams
         self.state = state
