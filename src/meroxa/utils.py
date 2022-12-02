@@ -19,6 +19,20 @@ class ErrorResponse(object):
         self.message = message
         self.details = details
 
+    def __repr__(self):
+        details=""
+        if len(self.details) > 0:
+            details = f"; {len(self.details)} detail(s) provided\n"
+            count = 1
+            for i in self.details:
+                joined = ". ".join(self.details[i])
+                iter = f"{count}. {i}: {joined}\n"
+                details = details + iter
+                count += 1
+
+        return f"{self.message} {details}"
+
+
 
 def parse_error_message(error):
     try:
