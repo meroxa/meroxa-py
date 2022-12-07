@@ -1,6 +1,6 @@
-from .applications import ApplicationResponse
-from .applications import Applications
-from .applications import CreateApplicationParams
+from ...applications import ApplicationResponse
+from ...applications import Applications
+from ...applications import CreateApplicationParams
 from .client import Meroxa
 from .connectors import Connectors
 from .connectors import ConnectorsResponse
@@ -55,3 +55,9 @@ __all__ = [
     "UserResponse",
     "Users",
 ]
+
+
+"""
+Semantic release checks and updates version variable
+"""
+__version__ = "1.2.0"
