@@ -21,7 +21,7 @@ class ErrorResponse(object):
 
     def __repr__(self):
         details = ""
-        if len(self.details) > 0:
+        if self.details and len(self.details) > 0:
             details = f"; {len(self.details)} detail(s) provided\n"
             count = 1
             for i in self.details:
