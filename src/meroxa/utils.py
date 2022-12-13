@@ -20,8 +20,8 @@ class ErrorResponse(object):
         self.details = details
 
     def __repr__(self):
-        details=""
-        if len(self.details) > 0:
+        details = ""
+        if self.details and len(self.details) > 0:
             details = f"; {len(self.details)} detail(s) provided\n"
             count = 1
             for i in self.details:
@@ -31,7 +31,6 @@ class ErrorResponse(object):
                 count += 1
 
         return f"{self.message} {details}"
-
 
 
 def parse_error_message(error):
