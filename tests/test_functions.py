@@ -20,6 +20,8 @@ FUNCTION_JSON = {
     "env_vars": {},
     "status": {"state": "pending", "details": ""},
     "pipeline": {"name": "default"},
+    "created_at": "2022-03-02T20:18:14Z",
+    "updated_at": "2022-03-02T20:18:14Z",
 }
 
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find function"}
@@ -32,6 +34,8 @@ def assert_function_equality(response, comparison):
     assert response.image == comparison.get("image")
     assert response.env_vars == comparison.get("env_vars")
     assert response.pipeline == comparison.get("pipeline")
+    assert response.created_at == comparison.get("created_at")
+    assert response.updated_at == comparison.get("updated_at")
 
 
 @pytest.mark.asyncio
