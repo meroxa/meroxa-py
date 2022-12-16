@@ -21,6 +21,8 @@ class FunctionResponse(MeroxaApiResponse):
         env_vars: dict[str, str],
         status: dict,
         pipeline: dict,
+        created_at: str,
+        updated_at: str,
     ) -> None:
         self.uuid = uuid
         self.name = name
@@ -32,6 +34,8 @@ class FunctionResponse(MeroxaApiResponse):
         self.env_vars = env_vars
         self.status = status
         self.pipeline = pipeline
+        self.created_at = created_at
+        self.updated_at = updated_at
         super().__init__()
 
 
