@@ -49,7 +49,8 @@ def api_response(return_type: Type[MeroxaApiResponse]):
                 parsed = json.loads(res)
                 if isinstance(parsed, list):
                     return None, [return_type(**par) for par in parsed]
-                return None, return_type(**json.loads(res))
+                parsed = {"from_" if k == "from" else k: v for k, v in parsed.items()}
+                return None, return_type(**parsed)
             except (JSONDecodeError, TypeError):
                 return parse_error_message(res), None
 

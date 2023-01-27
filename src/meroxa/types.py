@@ -55,3 +55,24 @@ class EntityIdentifier:
 
     def repr_json(self):
         return dict(name=self.name) if self.name is not None else dict(uuid=self.uuid)
+
+
+class ResourceNode:
+    def __init__(
+        self,
+        connectors: list[dict[str, str]] = None,
+        functions: list[dict[str, str]] = None,
+    ) -> None:
+        self.connectors = connectors
+        self.functions = functions
+
+    def repr_json(self):
+        res = {}
+
+        if self.connectors:
+            res.update(self.connectors)
+
+        if self.functions:
+            res.update(self.functions)
+
+        return res
