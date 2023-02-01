@@ -3,6 +3,7 @@ from typing import Any
 
 from .types import EntityIdentifier
 from .types import MeroxaApiResponse
+from .types import ResourceNode
 from .utils import api_response
 from .utils import ComplexEncoder
 
@@ -12,24 +13,26 @@ CONNECTORS_BASE_PATH = "/v1/connectors"
 class ConnectorsResponse(MeroxaApiResponse):
     def __init__(
         self,
-        id: str,
-        config: dict[str, str],
+        id: str,  #
+        config: dict[str, str],  #
         created_at: str,
-        metadata: dict[str, str],
-        name: str,
-        resource_name: str,
-        pipeline_name: str,
-        resource_id: str,
-        resource_uuid: str,
-        pipeline_id: str,
-        streams: dict[str, str],
-        state: str,
-        type: str,
+        metadata: dict[str, str],  #
+        name: str,  #
+        resource_name: str,  #
+        pipeline_name: str,  #
+        resource_id: str,  #
+        resource_uuid: str,  #
+        pipeline_id: str,  #
+        streams: dict[str, str],  #
+        state: str,  #
+        type: str,  #
         updated_at: str,
-        uuid: str,
-        collection: str,
+        uuid: str,  #
+        collection: str,  #
         trace: str = None,
         environment: EntityIdentifier = None,
+        to: ResourceNode = None,
+        from_: ResourceNode = None,
     ) -> None:
         self.id = id
         self.config = config
@@ -49,6 +52,8 @@ class ConnectorsResponse(MeroxaApiResponse):
         self.collection = collection
         self.trace = trace
         self.environment = environment
+        self.to = to
+        self.from_ = from_
         super().__init__()
 
 
