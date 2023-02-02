@@ -85,7 +85,8 @@ class Functions:
 
     async def list(self):
         async with self._session.get(FUNCTIONS_BASE_PATH) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(

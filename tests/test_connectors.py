@@ -1,11 +1,9 @@
 import json
-from unittest.mock import AsyncMock
 from unittest.mock import patch
 
 import pytest
 
 from meroxa import Connectors
-from meroxa import ConnectorsResponse
 from meroxa import CreateConnectorParams
 
 CONNECTOR_JSON = {
@@ -30,92 +28,51 @@ CONNECTOR_JSON = {
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find function"}
 
 
-def assert_connector_equality(response, comparison):
-    assert response.resource_name == comparison.get("resource_name")
-    assert response.pipeline_name == comparison.get("pipeline_name")
-    assert response.config == comparison.get("config")
+# All test coroutines will be treated as marked.
+def assert_response_eq(response, comparison):
+    assert sorted(response.items()) == sorted(comparison.items())
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connector_get_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=[json.dumps(CONNECTOR_JSON)]
+    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps(CONNECTOR_JSON)
     )
-
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    error, connectors_response = await Connectors(mock_session).get("connector")
+    connectors_response = await Connectors(mock_session).get("connector")
 
     assert mock_session.get.call_count == 1
-    assert error is None
 
-    assert_connector_equality(connectors_response, CONNECTOR_JSON)
-
-
-@pytest.mark.asyncio
-@patch("aiohttp.ClientSession")
-async def test_connectors_get_error(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(ERROR_MESSAGE)
-    )
-
-    mock_session.get.return_value.__aenter__.return_value.status = 404
-
-    error, connectors_response = await Connectors(mock_session).get("connector")
-
-    assert mock_session.get.call_count == 1
-    assert connectors_response is None
-
-    assert ERROR_MESSAGE.items() <= error.__dict__.items()
+    assert_response_eq(connectors_response, CONNECTOR_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connectors_list_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=[json.dumps([CONNECTOR_JSON, CONNECTOR_JSON])]
+    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps([CONNECTOR_JSON, CONNECTOR_JSON])
     )
-
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    error, resource_response = await Connectors(mock_session).list()
+    resource_response = await Connectors(mock_session).list()
 
     assert mock_session.get.call_count == 1
-    assert error is None
 
     assert isinstance(resource_response, list)
     assert len(resource_response) == 2
 
-    assert_connector_equality(resource_response[0], CONNECTOR_JSON)
-    assert_connector_equality(resource_response[1], CONNECTOR_JSON)
-
-
-@pytest.mark.asyncio
-@patch("aiohttp.ClientSession")
-async def test_connection_list_error(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(ERROR_MESSAGE)
-    )
-
-    mock_session.get.return_value.__aenter__.return_value.status = 404
-
-    error, resource_response = await Connectors(mock_session).list()
-
-    assert mock_session.get.call_count == 1
-    assert resource_response is None
-
-    # TODO: Better comparison logic
-    assert ERROR_MESSAGE.items() <= error.__dict__.items()
+    assert_response_eq(resource_response[0], CONNECTOR_JSON)
+    assert_response_eq(resource_response[1], CONNECTOR_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connectors_delete_success(mock_session):
-    mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=None
+    mock_session.delete.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps({})
     )
-
     mock_session.delete.return_value.__aenter__.return_value.status = 200
 
     await Connectors(mock_session).delete("function_i_want_gone")
@@ -125,8 +82,8 @@ async def test_connectors_delete_success(mock_session):
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_connectors_create_success(mock_session):
-    mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(CONNECTOR_JSON)
+    mock_session.post.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps(CONNECTOR_JSON)
     )
     mock_session.post.return_value.__aenter__.return_value.status = 202
 
@@ -136,9 +93,9 @@ async def test_connectors_create_success(mock_session):
         config={"input": "something?"},
     )
 
-    error, create_response = await Connectors(mock_session).create(ccp)
+    create_response = await Connectors(mock_session).create(ccp)
 
     assert mock_session.post.call_count == 1
-    assert error is None
-    assert isinstance(create_response, ConnectorsResponse)
-    assert_connector_equality(create_response, CONNECTOR_JSON)
+    assert isinstance(create_response, dict)
+
+    assert_response_eq(create_response, CONNECTOR_JSON)
