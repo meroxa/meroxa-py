@@ -7,7 +7,6 @@ import pytest
 from meroxa import CreateResourceParams
 from meroxa import ResourceCredentials
 from meroxa import Resources
-from meroxa.resources import ResourcesResponse
 from meroxa.types import ResourceType
 
 RESOURCE_JSON = {
@@ -28,66 +27,34 @@ ERROR_MESSAGE = {"code": "not_found", "message": "could not find resource"}
 
 # All test coroutines will be treated as marked.
 def assert_resource_equality(response, comparison):
-    assert response.connector_count == comparison.get("connector_count")
-    assert response.created_at == comparison.get("created_at")
-    assert response.metadata == comparison.get("metadata")
-    assert response.name == comparison.get("name")
-    assert response.type == comparison.get("type")
-    assert response.updated_at == comparison.get("updated_at")
-    assert response.url == comparison.get("url")
-    assert response.uuid == comparison.get("uuid")
-    assert response.status.last_updated_at == comparison["status"]["last_updated_at"]
-    assert response.status.state == comparison["status"]["state"]
+    assert sorted(response.items()) == sorted(comparison.items())
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_get_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=[json.dumps(RESOURCE_JSON)]
+    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps(RESOURCE_JSON)
     )
-
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    error, resource_response = await Resources(mock_session).get("resource_name")
+    resource_response = await Resources(mock_session).get("resource_name")
 
     assert mock_session.get.call_count == 1
-    assert error is None
-
     assert_resource_equality(resource_response, RESOURCE_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_get_error(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(ERROR_MESSAGE)
-    )
-
-    mock_session.get.return_value.__aenter__.return_value.status = 404
-
-    error, resource_response = await Resources(mock_session).get("something")
-
-    assert mock_session.get.call_count == 1
-    assert resource_response is None
-
-    # TODO: Better comparison logic
-    assert ERROR_MESSAGE.items() <= error.__dict__.items()
-
-
-@pytest.mark.asyncio
-@patch("aiohttp.ClientSession")
 async def test_resources_list_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=[json.dumps([RESOURCE_JSON, RESOURCE_JSON])]
+    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps([RESOURCE_JSON, RESOURCE_JSON])
     )
-
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    error, resource_response = await Resources(mock_session).list()
+    resource_response = await Resources(mock_session).list()
 
     assert mock_session.get.call_count == 1
-    assert error is None
 
     assert isinstance(resource_response, list)
     assert len(resource_response) == 2
@@ -98,29 +65,10 @@ async def test_resources_list_success(mock_session):
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
-async def test_resources_list_error(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(ERROR_MESSAGE)
-    )
-
-    mock_session.get.return_value.__aenter__.return_value.status = 404
-
-    error, resource_response = await Resources(mock_session).list()
-
-    assert mock_session.get.call_count == 1
-    assert resource_response is None
-
-    # TODO: Better comparison logic
-    assert ERROR_MESSAGE.items() <= error.__dict__.items()
-
-
-@pytest.mark.asyncio
-@patch("aiohttp.ClientSession")
 async def test_resources_delete_success(mock_session):
-    mock_session.delete.return_value.__aenter__.return_value.text = AsyncMock(
-        side_effect=None
+    mock_session.delete.return_value.__aenter__.return_value.text.return_value = (
+        json.dumps({})
     )
-
     mock_session.delete.return_value.__aenter__.return_value.status = 200
 
     await Resources(mock_session).delete("delete")
@@ -150,10 +98,9 @@ async def test_resources_create_success(mock_session):
         ),
     )
 
-    error, create_response = await Resources(mock_session).create(crp)
+    create_response = await Resources(mock_session).create(crp)
 
     assert mock_session.post.call_count == 1
-    assert error is None
-    assert isinstance(create_response, ResourcesResponse)
+    assert isinstance(create_response, dict)
 
     assert_resource_equality(create_response, RESOURCE_JSON)

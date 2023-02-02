@@ -30,25 +30,7 @@ async def test_user_me_success(mock_session):
 
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    _, user_response = await Users(mock_session).me()
+    user_response = await Users(mock_session).me()
 
     assert mock_session.get.call_count == 1
-    assert user_response.__dict__ == USER_RESPONSE_JSON
-
-
-@pytest.mark.asyncio
-@patch("aiohttp.ClientSession")
-async def test_user_me_error(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(ERROR_MESSAGE)
-    )
-
-    mock_session.get.return_value.__aenter__.return_value.status = 200
-
-    error, user_response = await Users(mock_session).me()
-
-    assert mock_session.get.call_count == 1
-    assert user_response is None
-
-    # TODO: Better comparison logic
-    assert ERROR_MESSAGE.items() <= error.__dict__.items()
+    assert user_response == USER_RESPONSE_JSON

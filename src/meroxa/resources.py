@@ -3,7 +3,6 @@ from typing import Any
 
 from .types import EnvironmentIdentifier
 from .types import MeroxaApiResponse
-from .utils import api_response
 from .utils import ComplexEncoder
 
 RESOURCE_BASE_PATH = "/v1/resources"
@@ -144,33 +143,33 @@ class Resources:
     def __init__(self, session) -> None:
         self._session = session
 
-    @api_response(ResourcesResponse)
     async def get(self, name_or_id: str):
         async with self._session.get(
             RESOURCE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
-    @api_response(ResourcesResponse)
     async def list(self):
         async with self._session.get(RESOURCE_BASE_PATH) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(
             RESOURCE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
-    @api_response(ResourcesResponse)
     async def create(self, create_resource_parameters: CreateResourceParams):
         async with self._session.post(
             RESOURCE_BASE_PATH,
             data=json.dumps(create_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
-    @api_response(ResourcesResponse)
     async def update(
         self, name_or_id: str, update_resource_parameters: UpdateResourceParams
     ):
@@ -179,4 +178,4 @@ class Resources:
             json=json.dumps(update_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
             res = await resp.text()
-            return ResourcesResponse(**json.loads(res))
+            return json.loads(res)

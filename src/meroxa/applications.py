@@ -4,7 +4,6 @@ from .pipelines import PipelineIdentifiers
 from .types import ApplicationResource
 from .types import EntityIdentifier
 from .types import MeroxaApiResponse
-from .utils import api_response
 from .utils import ComplexEncoder
 
 APPLICATIONS_BASE_PATH = "/v1/applications"
@@ -65,27 +64,25 @@ class Applications:
     def __init__(self, session) -> None:
         self._session = session
 
-    @api_response(ApplicationResponse)
     async def get(self, name_or_uuid: str):
-
         async with self._session.get(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
-    @api_response(ApplicationResponse)
     async def list(self):
-
         async with self._session.get(APPLICATIONS_BASE_PATH) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
     async def delete(self, name_or_uuid: str):
         async with self._session.delete(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
 
-    @api_response(ApplicationResponse)
     async def create(self, create_application_parameters: CreateApplicationParams):
         async with self._session.post(
             APPLICATIONS_BASE_PATH,
@@ -93,4 +90,5 @@ class Applications:
                 create_application_parameters.repr_json(), cls=ComplexEncoder
             ),
         ) as resp:
-            return await resp.text()
+            res = await resp.text()
+            return json.loads(res)
