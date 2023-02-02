@@ -1,21 +1,4 @@
-from enum import Enum
 from typing import Any
-
-
-class ResourceType(Enum):
-    POSTGRES = "postgres"
-    MYSQL = "mysql"
-    REDSHIFT = "redshift"
-    URL = "url"
-    S3 = "s3"
-    MONGODB = "mongodb"
-    ELASTICSEARCH = "elasticsearch"
-    SNOWFLAKE = "snowflakedb"
-    BIGQUERY = "bigquery"
-    SQLSERVER = "sqlserver"
-    COSMODB = "cosmodb"
-    KAFKA = "kafka"
-    CONFLUENTCLOUD = "confluentcloud"
 
 
 class MeroxaApiResponse(object):
@@ -70,9 +53,9 @@ class ResourceNode:
         res = {}
 
         if self.connectors:
-            res.update(self.connectors)
+            res.update({"connectors": self.connectors})
 
         if self.functions:
-            res.update(self.functions)
+            res.update({"functions": self.functions})
 
         return res

@@ -7,7 +7,6 @@ from tests import assert_response_eq
 from meroxa import CreateResourceParams
 from meroxa import ResourceCredentials
 from meroxa import Resources
-from meroxa.types import ResourceType
 
 RESOURCE_JSON = {
     "id": 9652,
@@ -81,7 +80,7 @@ async def test_resources_create_success(mock_session):
 
     crp = CreateResourceParams(
         name="resource_name",
-        type=ResourceType.POSTGRES.value,
+        type="postgres",
         url="postgres:/connection_url:5432/my_user",
         metadata={"logical_replication": "false"},
         credentials=ResourceCredentials(
