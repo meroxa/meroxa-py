@@ -44,4 +44,4 @@ __all__ = [
 """
 Semantic release checks and updates version variable
 """
-__version__ = "1.3.1"
+__version__ = "1.3.2"
