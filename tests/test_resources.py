@@ -1,8 +1,8 @@
 import json
-from unittest.mock import AsyncMock
 from unittest.mock import patch
 
 import pytest
+from tests import assert_response_eq
 
 from meroxa import CreateResourceParams
 from meroxa import ResourceCredentials
@@ -25,48 +25,44 @@ RESOURCE_JSON = {
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find resource"}
 
 
-# All test coroutines will be treated as marked.
-def assert_resource_equality(response, comparison):
-    assert sorted(response.items()) == sorted(comparison.items())
-
-
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_get_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.get.return_value.__aenter__.return_value.json.return_value = (
         json.dumps(RESOURCE_JSON)
     )
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    resource_response = await Resources(mock_session).get("resource_name")
+    response = await Resources(mock_session).get("resource_name")
 
     assert mock_session.get.call_count == 1
-    assert_resource_equality(resource_response, RESOURCE_JSON)
+    assert_response_eq(json.loads(response), RESOURCE_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_list_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.get.return_value.__aenter__.return_value.json.return_value = (
         json.dumps([RESOURCE_JSON, RESOURCE_JSON])
     )
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    resource_response = await Resources(mock_session).list()
+    response = await Resources(mock_session).list()
+    json_resp = json.loads(response)
 
     assert mock_session.get.call_count == 1
 
-    assert isinstance(resource_response, list)
-    assert len(resource_response) == 2
+    assert isinstance(json_resp, list)
+    assert len(json_resp) == 2
 
-    assert_resource_equality(resource_response[0], RESOURCE_JSON)
-    assert_resource_equality(resource_response[1], RESOURCE_JSON)
+    assert_response_eq(json_resp[0], RESOURCE_JSON)
+    assert_response_eq(json_resp[1], RESOURCE_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_delete_success(mock_session):
-    mock_session.delete.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.delete.return_value.__aenter__.return_value.json.return_value = (
         json.dumps({})
     )
     mock_session.delete.return_value.__aenter__.return_value.status = 200
@@ -78,8 +74,8 @@ async def test_resources_delete_success(mock_session):
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_resources_create_success(mock_session):
-    mock_session.post.return_value.__aenter__.return_value.text = AsyncMock(
-        return_value=json.dumps(RESOURCE_JSON)
+    mock_session.post.return_value.__aenter__.return_value.json.return_value = (
+        json.dumps(RESOURCE_JSON)
     )
     mock_session.post.return_value.__aenter__.return_value.status = 202
 
@@ -99,8 +95,9 @@ async def test_resources_create_success(mock_session):
     )
 
     create_response = await Resources(mock_session).create(crp)
+    json_resp = json.loads(create_response)
 
     assert mock_session.post.call_count == 1
-    assert isinstance(create_response, dict)
+    assert isinstance(json_resp, dict)
 
-    assert_resource_equality(create_response, RESOURCE_JSON)
+    assert_response_eq(json_resp, RESOURCE_JSON)

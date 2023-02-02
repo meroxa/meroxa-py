@@ -1,41 +1,12 @@
 import json
 
+from aiohttp import ClientSession
+
 from .pipelines import PipelineIdentifiers
-from .types import ApplicationResource
-from .types import EntityIdentifier
-from .types import MeroxaApiResponse
 from .utils import ComplexEncoder
 
+
 APPLICATIONS_BASE_PATH = "/v1/applications"
-
-
-class ApplicationResponse(MeroxaApiResponse):
-    def __init__(
-        self,
-        uuid: str,
-        name: str,
-        language: str,
-        status: dict,
-        pipeline: dict,
-        created_at: str,
-        updated_at: str,
-        git_sha: str = None,
-        connectors: list[EntityIdentifier] = None,
-        functions: list[EntityIdentifier] = None,
-        resources: list[ApplicationResource] = None,
-    ) -> None:
-        self.uuid = uuid
-        self.name = name
-        self.language = language
-        self.status = status
-        self.pipeline = pipeline
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.git_sha = git_sha
-        self.connectors = connectors
-        self.functions = functions
-        self.resources = resources
-        super().__init__()
 
 
 class CreateApplicationParams:
@@ -61,27 +32,24 @@ class CreateApplicationParams:
 
 
 class Applications:
-    def __init__(self, session) -> None:
+    def __init__(self, session: ClientSession) -> None:
         self._session = session
 
     async def get(self, name_or_uuid: str):
         async with self._session.get(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def list(self):
         async with self._session.get(APPLICATIONS_BASE_PATH) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def delete(self, name_or_uuid: str):
         async with self._session.delete(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def create(self, create_application_parameters: CreateApplicationParams):
         async with self._session.post(
@@ -90,5 +58,4 @@ class Applications:
                 create_application_parameters.repr_json(), cls=ComplexEncoder
             ),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()

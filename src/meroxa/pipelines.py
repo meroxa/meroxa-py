@@ -1,36 +1,11 @@
 import json
 
+from aiohttp import ClientSession
+
 from .types import EnvironmentIdentifier
-from .types import MeroxaApiResponse
 from .utils import ComplexEncoder
 
 PIPELINE_BASE_PATH = "/v1/pipelines"
-
-
-class PipelineResponse(MeroxaApiResponse):
-    def __init__(
-        self,
-        uuid: str,
-        account_id: int,
-        project_id: int,
-        name: str,
-        state: str,
-        created_at: str,
-        updated_at: str,
-        environment: EnvironmentIdentifier = None,
-        metadata: dict[str, str] = None,
-        **kwargs
-    ) -> None:
-        self.created_at = created_at
-        self.uuid = uuid
-        self.account_id = account_id
-        self.project_id = project_id
-        self.name = name
-        self.state = state
-        self.updated_at = updated_at
-        self.environment = environment
-        self.metadata = metadata
-        super().__init__()
 
 
 class CreatePipelineParams:
@@ -89,35 +64,31 @@ class PipelineIdentifiers:
 
 
 class Pipelines:
-    def __init__(self, session) -> None:
+    def __init__(self, session: ClientSession) -> None:
         self._session = session
 
     async def get(self, name_or_id: str):
         async with self._session.get(
             PIPELINE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def list(self):
         async with self._session.get(PIPELINE_BASE_PATH) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(
             PIPELINE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def create(self, create_pipeline_parameters: CreatePipelineParams):
         async with self._session.post(
             PIPELINE_BASE_PATH,
             data=json.dumps(create_pipeline_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def update(
         self, pipeline_name_or_id: str, update_pipeline_parameters: UpdatePipelineParams
@@ -126,5 +97,4 @@ class Pipelines:
             PIPELINE_BASE_PATH + "/{}".format(pipeline_name_or_id),
             json=json.dumps(update_pipeline_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()

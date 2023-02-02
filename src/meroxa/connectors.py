@@ -1,54 +1,11 @@
 import json
 from typing import Any
 
-from .types import EntityIdentifier
-from .types import MeroxaApiResponse
+from aiohttp import ClientSession
+
 from .utils import ComplexEncoder
 
 CONNECTORS_BASE_PATH = "/v1/connectors"
-
-
-class ConnectorsResponse(MeroxaApiResponse):
-    def __init__(
-        self,
-        id: str,
-        config: dict[str, str],
-        created_at: str,
-        metadata: dict[str, str],
-        name: str,
-        resource_name: str,
-        pipeline_name: str,
-        resource_id: str,
-        resource_uuid: str,
-        pipeline_id: str,
-        streams: dict[str, str],
-        state: str,
-        type: str,
-        updated_at: str,
-        uuid: str,
-        collection: str,
-        trace: str = None,
-        environment: EntityIdentifier = None,
-    ) -> None:
-        self.id = id
-        self.config = config
-        self.created_at = created_at
-        self.metadata = metadata
-        self.name = name
-        self.resource_name = resource_name
-        self.pipeline_name = pipeline_name
-        self.resource_id = resource_id
-        self.resource_uuid = resource_id
-        self.pipeline_id = pipeline_id
-        self.streams = streams
-        self.state = state
-        self.type = type
-        self.updated_at = updated_at
-        self.uuid = uuid
-        self.collection = collection
-        self.trace = trace
-        self.environment = environment
-        super().__init__()
 
 
 class CreateConnectorParams:
@@ -99,27 +56,24 @@ class UpdateConnectorParams:
 
 
 class Connectors:
-    def __init__(self, session) -> None:
+    def __init__(self, session: ClientSession) -> None:
         self._session = session
 
     async def get(self, name_or_id: str):
         async with self._session.get(
             CONNECTORS_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def list(self):
         async with self._session.get(CONNECTORS_BASE_PATH) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(
             CONNECTORS_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def create(self, create_connector_parameters: CreateConnectorParams):
         async with self._session.post(
@@ -128,8 +82,7 @@ class Connectors:
                 create_connector_parameters.repr_json(), cls=ComplexEncoder
             ),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def update(
         self, name_or_id: str, update_connector_parameters: UpdateConnectorParams
@@ -140,5 +93,4 @@ class Connectors:
                 update_connector_parameters.repr_json(), cls=ComplexEncoder
             ),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()

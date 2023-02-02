@@ -1,41 +1,11 @@
 import json
 
+from aiohttp import ClientSession
+
 from .pipelines import PipelineIdentifiers
-from .types import MeroxaApiResponse
 from .utils import ComplexEncoder
 
 FUNCTIONS_BASE_PATH = "/v1/functions"
-
-
-class FunctionResponse(MeroxaApiResponse):
-    def __init__(
-        self,
-        uuid: str,
-        name: str,
-        input_stream: str,
-        output_stream: str,
-        image: str,
-        command: list[str],
-        args: list[str],
-        env_vars: dict[str, str],
-        status: dict,
-        pipeline: dict,
-        created_at: str,
-        updated_at: str,
-    ) -> None:
-        self.uuid = uuid
-        self.name = name
-        self.input_stream = input_stream
-        self.output_stream = output_stream
-        self.image = image
-        self.command = command
-        self.args = args
-        self.env_vars = env_vars
-        self.status = status
-        self.pipeline = pipeline
-        self.created_at = created_at
-        self.updated_at = updated_at
-        super().__init__()
 
 
 class CreateFunctionParams:
@@ -73,32 +43,28 @@ class CreateFunctionParams:
 
 
 class Functions:
-    def __init__(self, session) -> None:
+    def __init__(self, session: ClientSession) -> None:
         self._session = session
 
     async def get(self, name_or_id: str):
         async with self._session.get(
             FUNCTIONS_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def list(self):
         async with self._session.get(FUNCTIONS_BASE_PATH) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(
             FUNCTIONS_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def create(self, create_function_parameters: CreateFunctionParams):
         async with self._session.post(
             FUNCTIONS_BASE_PATH,
             data=json.dumps(create_function_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()

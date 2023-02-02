@@ -1,9 +1,10 @@
 import json
-from typing import Any
+
+from aiohttp import ClientSession
 
 from .types import EnvironmentIdentifier
-from .types import MeroxaApiResponse
 from .utils import ComplexEncoder
+
 
 RESOURCE_BASE_PATH = "/v1/resources"
 
@@ -18,32 +19,6 @@ class Status(object):
         self.state = state
         self.details = details
         self.last_updated_at = last_updated_at
-
-
-class ResourcesResponse(MeroxaApiResponse):
-    def __init__(
-        self,
-        uuid: str,
-        name: str,
-        type: str,
-        url: str,
-        metadata: dict,
-        connector_count: int,
-        status: Any,
-        created_at: str,
-        updated_at: str,
-        **kwargs
-    ) -> None:
-        self.uuid = uuid
-        self.name = name
-        self.type = type
-        self.url = url
-        self.metadata = metadata
-        self.connector_count = connector_count
-        self.status = Status(**status)
-        self.created_at = created_at
-        self.updated_at = updated_at
-        super().__init__()
 
 
 class ResourceCredentials:
@@ -80,7 +55,7 @@ class ResourceSSHTunnel:
         self._private_key = private_key
 
     def repr_json(self):
-        return dict(address=self.address, private_key=self.private_key)
+        return dict(address=self._address, private_key=self._private_key)
 
 
 class CreateResourceParams:
@@ -140,35 +115,31 @@ class UpdateResourceParams:
 
 
 class Resources:
-    def __init__(self, session) -> None:
+    def __init__(self, session: ClientSession) -> None:
         self._session = session
 
     async def get(self, name_or_id: str):
         async with self._session.get(
             RESOURCE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def list(self):
         async with self._session.get(RESOURCE_BASE_PATH) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def delete(self, name_or_id: str):
         async with self._session.delete(
             RESOURCE_BASE_PATH + "/{}".format(name_or_id)
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def create(self, create_resource_parameters: CreateResourceParams):
         async with self._session.post(
             RESOURCE_BASE_PATH,
             data=json.dumps(create_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()
 
     async def update(
         self, name_or_id: str, update_resource_parameters: UpdateResourceParams
@@ -177,5 +148,4 @@ class Resources:
             RESOURCE_BASE_PATH + "/{}".format(name_or_id),
             json=json.dumps(update_resource_parameters.repr_json(), cls=ComplexEncoder),
         ) as resp:
-            res = await resp.text()
-            return json.loads(res)
+            return await resp.json()

@@ -2,6 +2,7 @@ import json
 from unittest.mock import patch
 
 import pytest
+from tests import assert_response_eq
 
 from meroxa import Applications
 from meroxa import CreateApplicationParams
@@ -24,15 +25,10 @@ APP_JSON = {
 ERROR_MESSAGE = {"code": "not_found", "message": "could not find application"}
 
 
-# All test coroutines will be treated as marked.
-def assert_response_eq(response, comparison):
-    assert sorted(response.items()) == sorted(comparison.items())
-
-
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_application_get_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.get.return_value.__aenter__.return_value.json.return_value = (
         json.dumps(APP_JSON)
     )
     mock_session.get.return_value.__aenter__.return_value.status = 200
@@ -41,32 +37,33 @@ async def test_application_get_success(mock_session):
 
     assert mock_session.get.call_count == 1
 
-    assert_response_eq(apps_response, APP_JSON)
+    assert_response_eq(json.loads(apps_response), APP_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_applications_list_success(mock_session):
-    mock_session.get.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.get.return_value.__aenter__.return_value.json.return_value = (
         json.dumps([APP_JSON, APP_JSON])
     )
     mock_session.get.return_value.__aenter__.return_value.status = 200
 
-    resource_response = await Applications(mock_session).list()
+    response = await Applications(mock_session).list()
+    json_resp = json.loads(response)
 
     assert mock_session.get.call_count == 1
 
-    assert isinstance(resource_response, list)
-    assert len(resource_response) == 2
+    assert isinstance(response, str)
+    assert len(json_resp) == 2
 
-    assert_response_eq(resource_response[0], APP_JSON)
-    assert_response_eq(resource_response[1], APP_JSON)
+    assert_response_eq(json_resp[0], APP_JSON)
+    assert_response_eq(json_resp[1], APP_JSON)
 
 
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_applications_delete_success(mock_session):
-    mock_session.delete.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.delete.return_value.__aenter__.return_value.json.return_value = (
         json.dumps({})
     )
     mock_session.delete.return_value.__aenter__.return_value.status = 200
@@ -78,7 +75,7 @@ async def test_applications_delete_success(mock_session):
 @pytest.mark.asyncio
 @patch("aiohttp.ClientSession")
 async def test_applications_create_success(mock_session):
-    mock_session.post.return_value.__aenter__.return_value.text.return_value = (
+    mock_session.post.return_value.__aenter__.return_value.json.return_value = (
         json.dumps(APP_JSON)
     )
     mock_session.post.return_value.__aenter__.return_value.status = 202
@@ -93,5 +90,6 @@ async def test_applications_create_success(mock_session):
     create_response = await Applications(mock_session).create(cap)
 
     assert mock_session.post.call_count == 1
-    assert isinstance(create_response, dict)
-    assert_response_eq(create_response, APP_JSON)
+    assert isinstance(create_response, str)
+
+    assert_response_eq(json.loads(create_response), APP_JSON)
