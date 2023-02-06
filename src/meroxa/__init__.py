@@ -15,6 +15,7 @@ from .resources import Resources
 from .resources import ResourceSSHTunnel
 from .resources import UpdateResourceParams
 from .types import EnvironmentIdentifier
+from .types import ResourceType
 from .users import Users
 
 __all__ = [
@@ -30,6 +31,7 @@ __all__ = [
     "Meroxa",
     "PipelineIdentifiers",
     "ResourceCredentials",
+    "ResourceType",
     "Resources",
     "ResourceSSHTunnel",
     "UpdateConnectorParams",
