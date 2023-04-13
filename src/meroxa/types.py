@@ -34,7 +34,6 @@ class EnvironmentIdentifier:
 
 class ResourceCollection:
     def __init__(self, name=None, destination=None, source=None):
-
         self.name = name
         self.source = source
         self.destination = destination
@@ -42,7 +41,6 @@ class ResourceCollection:
 
 class ApplicationResource:
     def __init__(self, name=None, uuid=None, collection: Any = None):
-
         self.name = name
         self.uuid = uuid
         self.collection = ResourceCollection(**collection)
