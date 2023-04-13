@@ -67,7 +67,6 @@ class Applications:
 
     @api_response(ApplicationResponse)
     async def get(self, name_or_uuid: str):
-
         async with self._session.get(
             APPLICATIONS_BASE_PATH + "/{}".format(name_or_uuid)
         ) as resp:
@@ -75,7 +74,6 @@ class Applications:
 
     @api_response(ApplicationResponse)
     async def list(self):
-
         async with self._session.get(APPLICATIONS_BASE_PATH) as resp:
             return await resp.text()
 
