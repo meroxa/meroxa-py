@@ -7,6 +7,6 @@ pytest==7.4.3
 pytest-asyncio==0.23.3
 aioresponses==0.7.6
 
-tox==4.12.1
+tox==4.14.1
 
 -e .
